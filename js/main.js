@@ -364,7 +364,6 @@ function doSoundClip() {
 request = new XMLHttpRequest();
 
     request.open("GET", "audio/C.wav", true);
-    //request.open("GET", "https://www.wavsource.com/snds_2020-10-01_3728627494378403/tv/pee-wee/aahhhh.wav", true);// 
     request.responseType = "arraybuffer";
     request.onload = function(){
         context.decodeAudioData(request.response, onDecoded);
@@ -373,8 +372,22 @@ request = new XMLHttpRequest();
     function onDecoded(buffer){
         var bufferSource = context.createBufferSource();
         bufferSource.buffer = buffer;
+
+
+        analyserNode = context.createAnalyser();
+		analyserNode.fftSize = 2048;
+		bufferLength = analyserNode.frequencyBinCount;
+		dataArray = new Uint8Array(bufferLength);
+		analyserNode.getByteTimeDomainData(dataArray);
+
+
+
         bufferSource.connect(context.destination);
+        bufferSource.connect(analyserNode);
         bufferSource.start();
+
+        playing = true;
+        draw();
     }
     
     request.send();
