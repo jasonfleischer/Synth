@@ -274,6 +274,13 @@ function startNote(elem, frequency, harmonic) {
 
 	lastNote = new Note(ctx, frequency, harmonic ? harmonicsVolume : [1])
 
+
+
+	analyserNode.fftSize = 2048;
+		bufferLength = analyserNode.frequencyBinCount;
+		dataArray = new Uint8Array(bufferLength);
+		analyserNode.getByteTimeDomainData(dataArray);
+
 	notes.set(frequency, lastNote);
 	lastNote.play()
 	playing = true	
