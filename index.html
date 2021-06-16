@@ -45,6 +45,7 @@
 		
 		<br></br>
 		<canvas id="oscilloscope"></canvas>
+		<button onclick="toggleDrawing()">S</button>
 		<!--<audio id="audio" src="audio/C.wav"  ></audio>-->
 		<p>Tests</p>
 		<button id="wave_table" onclick="doWaveTable()">Wavetable (A3)</button>
@@ -65,6 +66,22 @@
 				<td id="fade"></td>
 				<td><input type="range" min="0.5" max="30" value="0" step="0.5" class="slider" id="fadeRange" /></td>
 			</tr>
+			<tr>
+				<td id="duration"></td>
+				<td><select id="duration_select">
+					<option value="1">1 min</option>
+					<option value="5">5 min</option>
+					<option value="10">10 min</option>
+					<option value="15">15 min</option>
+					<option value="20">20 min</option>
+					<option value="30">30 min</option>
+					<option value="45">45 min</option>
+					<option value="60">1 hour</option>
+					<option value="-1" selected="selected">Infinite</option>
+				</select></td>
+			</tr>
+
+
 			<!--<tr>
 				<th>Reverb</th> 
 			</tr>

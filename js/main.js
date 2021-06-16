@@ -13,6 +13,7 @@ var tremoloMin = 0.7
 var tremoloMax = 1.0
 var tremoloVolume = 1.0;
 var fade_in_seconds = 25;
+var duration = -1;
 
 var compressorNode;
 var masterGainNode;
@@ -90,6 +91,18 @@ function init() {
 		slider.oninput = function() {
 			fade_in_seconds = parseFloat(this.value);
 			sliderText.innerHTML = "Fade: " + fade_in_seconds.toFixed(1) + "s"
+		}
+	}
+
+	setupDurationSelect()
+	function setupDurationSelect() {
+		var select = document.getElementById("duration_select");
+		select.value = duration
+		var selectText = document.getElementById("duration");
+		selectText.innerHTML = duration == -1 ? "Duration" : "Duration: " + duration + "min"
+		select.oninput = function() {
+			duration = parseFloat(this.value);
+			selectText.innerHTML = duration == -1 ? "Duration" : "Duration: " + duration + "min"
 		}
 	}
 	/*setupReverbDecaySlider()
@@ -258,6 +271,7 @@ function startNote(elem, frequency, harmonic) {
 		timeout = setTimeout(fluctuateVolume, 0);
 
 		setup = true
+		
 	}
 
 
@@ -266,6 +280,11 @@ function startNote(elem, frequency, harmonic) {
 		if(note.playing){
 			note.stop()
 			elem.style.backgroundColor = "";
+			notes.delete(frequency);
+			if(notes.size == 0){
+				playing = false	
+				stopDurationTimer()
+			}
 			return
 		}else {
 			notes.delete(frequency)
@@ -281,9 +300,14 @@ function startNote(elem, frequency, harmonic) {
 		dataArray = new Uint8Array(bufferLength);
 		analyserNode.getByteTimeDomainData(dataArray);
 
+	if(notes.size == 0){
+		playing = true	
+		startDurationTimer()
+	}
+
 	notes.set(frequency, lastNote);
 	lastNote.play()
-	playing = true	
+	
 	elem.style.backgroundColor = "yellow";
 }
 
@@ -302,6 +326,62 @@ function impulseResponse(audioContext, duration, decay, reverse ) {
 		impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
 	}
 	return impulse;
+}
+
+var durationStartTime;
+var durationTimeout;
+function startDurationTimer(){
+	if (duration == -1) return;
+	durationStartTime = Date.now()
+	durationTimerWork()
+}
+function durationTimerWork(){
+
+	var timeExpired = Date.now() - durationStartTime
+
+	var buttonText = document.getElementById("stop_delay");
+	var durationInMS = duration*60*1000;
+	var timeRemaining = durationInMS - timeExpired
+
+
+	var humanReadable = human_readable_duration(timeRemaining)
+	buttonText.innerHTML = humanReadable == "" ? "Fade Out" : "Fade Out (" + human_readable_duration(timeRemaining) + ")"
+	if(timeExpired > durationInMS){
+		stopDurationTimer()
+	}else{
+		durationTimeout = setTimeout(durationTimerWork, 200);
+	}
+	function human_readable_duration(duration_in_MS){
+		var duration_in_seconds = duration_in_MS / 1000;
+		if(duration_in_seconds < 60) {
+			return formattedSeconds(duration_in_seconds);
+		} else if(duration_in_seconds < 60*60){
+			var mins = parseInt(duration_in_seconds/60)
+			var secs = duration_in_seconds - (mins*60)
+			return mins + " min" +  (secs==0?"":" ") + formattedSeconds(secs)
+		} else if (duration_in_seconds >= 60*60) {
+			var hours = parseInt(duration_in_seconds/60/60)
+			return hours + " hour"
+		} else {
+			//LogE("not handled human readable duration")
+			return ""
+		}
+
+		function formattedSeconds(seconds){
+			seconds = parseInt(seconds)
+			if(seconds == 0) return ""
+			else if (seconds < 10) return "0"+seconds +" s"
+			else return seconds+" s"
+		}
+	}
+}
+function stopDurationTimer() {
+	
+	var buttonText = document.getElementById("stop_delay");
+	buttonText.innerHTML = "Fade Out"
+
+	clearTimeout(durationTimeout);
+	fadeStop()
 }
 
 
@@ -477,7 +557,12 @@ function fadeStop() {
 
 function stop(delayTime=0.5) {
 	//clearTimeout(timeout);
+
+	if (!playing) return
+
 	playing = false;
+	stopDurationTimer()
+	
 
 	for(const [frequency, note] of notes) {
 		note.stop(delayTime)
@@ -499,13 +584,14 @@ function log(msg) { console.log(msg) }
 
 var canvas = document.getElementById("oscilloscope");
 var canvasCtx = canvas.getContext("2d");
+var drawing = true
 
 function draw() {
 
 	requestAnimationFrame(draw);
 
 
-	if(playing) {
+	if(drawing) {
 
 		analyserNode.getByteTimeDomainData(dataArray);
 
@@ -537,6 +623,10 @@ function draw() {
 		canvasCtx.lineTo(canvas.width, canvas.height / 2);
 		canvasCtx.stroke();
 	}
+}
+
+function toggleDrawing(){
+	drawing = !drawing
 }
 
 
