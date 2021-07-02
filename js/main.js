@@ -478,9 +478,12 @@ request = new XMLHttpRequest();
 		dataArray = new Uint8Array(bufferLength);
 		analyserNode.getByteTimeDomainData(dataArray);
 
+		var masterGainNode = ctx.createGain();
+		masterGainNode.gain.value = masterVolume;
 
+		bufferSource.connect(masterGainNode)
+        masterGainNode.connect(context.destination);
 
-        bufferSource.connect(context.destination);
         bufferSource.connect(analyserNode);
         bufferSource.start();
 
