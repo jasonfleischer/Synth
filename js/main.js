@@ -13,14 +13,14 @@ var tremoloMin = 0.7
 var tremoloMax = 1.0
 var tremoloVolume = 1.0;
 var fade_in_seconds = 25;
-var duration = -1;
+var duration = 5;
 
 var compressorNode;
 var masterGainNode;
 var analyserNode;
 var bufferLength
 var dataArray
-var masterVolume = 0.5;
+var masterVolume = 0.3;
 //var reverbNode;
 //var reverbDecay = 0.1
 //var reverbDuration = 0.1
@@ -478,7 +478,7 @@ request = new XMLHttpRequest();
 		dataArray = new Uint8Array(bufferLength);
 		analyserNode.getByteTimeDomainData(dataArray);
 
-		var masterGainNode = ctx.createGain();
+		var masterGainNode = context.createGain();
 		masterGainNode.gain.value = masterVolume;
 
 		bufferSource.connect(masterGainNode)
