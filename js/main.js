@@ -63,7 +63,11 @@ var harmonicsVolume = /*[1.0, 0.286699025, 0.150079537, 0.042909002,
             0.008585879, 0.005771505, 0.004343925, 0.002141371, 0.005343231, 0.000530244, 
             0.004711017, 0.009014153]
 
+init()
+
 function init() {
+
+	load_cookies()
 
 	setupOscillatorTypeSlider()
 	function setupOscillatorTypeSlider() {

@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="icon" type="image/png" sizes="32x32" href="img/favicon.png">
 </head>
-<body onload="init()">
+<body>
 	<main>
 		<p>Sine</p>
 		<button id="Csharp" onclick="tapCsharp(this, 3)">C#</button>
@@ -59,8 +59,10 @@
 				<td><input type="range" min="0" max="3" value="1" step="1" class="slider" id="oscillatorTypeRange" /></td>
 			</tr>
 			<tr>
-				<td id="volume"></td>
-				<td><input type="range" min="0" max="1000" value="1000" step="0.000001" class="slider" id="volumeRange" /></td>
+				<td ><label id="volume" for="volumeRange"></label></td>
+				<td>
+					<input type="range" min="0" max="1000" value="1000" step="0.000001" class="slider" id="volumeRange" />
+				</td>
 			</tr>
 			<tr>
 				<td id="fade"></td>
@@ -118,6 +120,8 @@
 		</table>
 	</aside>
 </div>
+<script src="js/model.js"></script>
+<script src="js/cookies.js"></script>
 <script src="js/oscillator.js"></script>
 <script src="js/note.js"></script>
 <script src="js/main.js"></script>
