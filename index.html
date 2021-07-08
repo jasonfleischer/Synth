@@ -64,6 +64,7 @@
 			<button id="sound_clip" onclick="doSoundClip()">Sound Clip</button>
 		</main>-->
 		<aside>
+			<button id="install">Install</button>
 			<p><strong>Settings</strong></p>
 			<table>
 				<tr>
@@ -133,8 +134,12 @@
 		</aside>
 	</div>
 	<script>
+
+		let installable = false
+		let installed = false
 		
 		if ('serviceWorker' in navigator) {
+			installable = true
 		  navigator.serviceWorker.register('/synth/sw.js', { scope: '/synth/' }).then(function(reg) {
 
 		    if(reg.installing) {
@@ -153,6 +158,35 @@
 		} else {
 			console.log('Service worker not available');
 		}
+
+
+
+		let prompt;
+		window.addEventListener('beforeinstallprompt', function(e){
+		  // Prevent the mini-infobar from appearing on mobile
+		  e.preventDefault();
+		  // Stash the event so it can be triggered later.
+		  prompt = e;
+		});
+
+		let installButton = document.getElementById("install");//document.createElement('button');
+		installButton.addEventListener('click', function(){
+		   prompt.prompt();
+
+		   let result = await that.prompt.userChoice;
+			  if (result&&result.outcome === 'accepted') {
+			     installed = true;
+			  }
+		})
+
+		window.addEventListener('appinstalled', async function(e) {
+   			installButton.style.display = "none";
+		});
+
+		window.onload = function() {
+			console.log('here')
+			init();
+		};
 	</script>
 	<!--<script src="js/model.js"></script>
 	<script src="js/cookies.js"></script>
