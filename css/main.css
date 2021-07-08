@@ -27,7 +27,8 @@ tr td {
 }
 
 select {
-	width: 134px;
+	height: 48px;
+	width: 150px;
 }
 
 button {
@@ -43,8 +44,12 @@ input {
 
 canvas {
 	background: #fff;
-	width: 360px;
+	width: 350px;
 	height: 150px;
+}
+
+.slider {
+	width: 150px;
 }
 
 .Csharp {

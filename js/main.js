@@ -194,7 +194,7 @@ function init() {
 		for (i = 0; i < harmonicsVolume.length; i++) {
 			var value = harmonicsVolume[i];
 			var percentValue = value*100.0
-			innerTableHtml += "<tr><td style='width:150px'  ><label id='harmonic_text_"+i+"' for='harmonic_"+i+"'>H"+i+"</label></td><td><input type='range' min='0' max='100' value='"+percentValue+"' step='0.001' class='slider' style='width:250px;' id='harmonic_"+i+"' /></td></tr>";
+			innerTableHtml += "<tr><td style='width:150px'  ><label id='harmonic_text_"+i+"' for='harmonic_"+i+"'>H"+i+"</label></td><td><input type='range' min='0' max='100' value='"+percentValue+"' step='0.001' class='slider' style='width:150px;' id='harmonic_"+i+"' /></td></tr>";
 
 			
 		}
