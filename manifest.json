@@ -8,6 +8,11 @@
       		"sizes": "575x567",
       		"type": "image/png",
       		"purpose": "any maskable"
+    	},
+    	{
+      		"src": "img/screen.png",
+      		"sizes": "575x567",
+      		"type": "image/png"
     	}
   	],
   	"screenshots": [
