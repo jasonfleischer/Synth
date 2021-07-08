@@ -57,17 +57,17 @@
 		<p><strong>Settings</strong></p>
 		<table>
 			<tr>
-				<td id="oscillatorType"></td>
+				<td><label id="oscillatorType" for="oscillatorTypeRange"></label></td>
 				<td><input type="range" min="0" max="3" value="1" step="1" class="slider" id="oscillatorTypeRange" /></td>
 			</tr>
 			<tr>
-				<td ><label id="volume" for="volumeRange"></label></td>
+				<td><label id="volume" for="volumeRange"></label></td>
 				<td>
 					<input type="range" min="0" max="1000" value="1000" step="0.000001" class="slider" id="volumeRange" />
 				</td>
 			</tr>
 			<tr>
-				<td id="fade"></td>
+				<td><label id="fade" for="fadeRange"></label></td>
 				<td><input type="range" min="0.5" max="30" value="0" step="0.5" class="slider" id="fadeRange" /></td>
 			</tr>
 			<tr>
@@ -101,19 +101,19 @@
 				<th>Tremolo</th> 
 			</tr>
 			<tr>
-				<td id="bpm"></td>
+				<td><label id="bpm" for="bpmRange"></label></td>
 				<td><input type="range" min="40" max="208" value="120" step="1" class="slider" id="bpmRange" /></td>
 			</tr>
 			<tr>
-				<td id="tremoloMin"></td>
+				<td><label id="tremoloMin" for="tremoloMinRange"></label></td>
 				<td><input type="range" min="0" max="100" value="5" step="0.5" class="slider" id="tremoloMinRange" /></td>
 			</tr>
 			<tr>
-				<td id="tremoloMax"></td>
+				<td><label id="tremoloMax" for="tremoloMaxRange"></label></td>
 				<td><input type="range" min="0" max="100" value="5" step="0.5" class="slider" id="tremoloMaxRange" /></td>
 			</tr>
 			<tr>
-				<td>Visualization</td>
+				<td><label for="tremoloVisualizationRange">Visualization</label></td>
 				<td><input type="range" disabled min="0" max="100" value="0" step="0.5" class="slider" id="tremoloVisualizationRange" /></td>
 			</tr>
 		</table>
