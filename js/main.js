@@ -99,14 +99,14 @@ let installable = false
 		});
 
 		let installButton = document.getElementById("install");//document.createElement('button');
-		/*installButton.addEventListener('click', function(){
+		installButton.addEventListener('click', function(){
 		   prompt.prompt();
 
 		   let result = await that.prompt.userChoice;
 			  if (result&&result.outcome === 'accepted') {
 			     installed = true;
 			  }
-		})*/
+		})
 
 		window.addEventListener('appinstalled', async function(e) {
    			installButton.style.display = "none";
