@@ -98,7 +98,7 @@ let installable = false
 		  prompt = e;
 		});
 
-		//let installButton = document.getElementById("install");//document.createElement('button');
+		let installButton = document.getElementById("install");//document.createElement('button');
 		/*installButton.addEventListener('click', function(){
 		   prompt.prompt();
 
@@ -109,7 +109,7 @@ let installable = false
 		})*/
 
 		window.addEventListener('appinstalled', async function(e) {
-   			//installButton.style.display = "none";
+   			installButton.style.display = "none";
 		});
 
 		window.onload = function() {
