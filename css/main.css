@@ -3,6 +3,7 @@ body {
 	color: #EEE;
 }
 
+/*
 aside {
   width: 500px;
   float: left;
@@ -13,10 +14,10 @@ main {
 	margin-left: 500px;
 	padding-right: 10px;
 	padding-left: 10px;
-}
+}*/
 
 table {
-	width: 500px;
+	width: 360px;
 }
 th {
 	text-align: left;
