@@ -63,7 +63,59 @@ var harmonicsVolume = /*[1.0, 0.286699025, 0.150079537, 0.042909002,
             0.008585879, 0.005771505, 0.004343925, 0.002141371, 0.005343231, 0.000530244, 
             0.004711017, 0.009014153]
 
-init()
+
+let installable = false
+		let installed = false
+		
+		if ('serviceWorker' in navigator) {
+			installable = true
+		  navigator.serviceWorker.register('/synth/sw.js', { scope: '/synth/' }).then(function(reg) {
+
+		    if(reg.installing) {
+		      console.log('Service worker installing');
+		    } else if(reg.waiting) {
+		      console.log('Service worker installed');
+		    } else if(reg.active) {
+		      console.log('Service worker active');
+		      //init()
+		    }
+
+		  }).catch(function(error) {
+		    // registration failed
+		    console.log('Registration failed with ' + error);
+		  });
+		} else {
+			console.log('Service worker not available');
+		}
+
+
+
+		let prompt;
+		window.addEventListener('beforeinstallprompt', function(e){
+		  // Prevent the mini-infobar from appearing on mobile
+		  e.preventDefault();
+		  // Stash the event so it can be triggered later.
+		  prompt = e;
+		});
+
+		let installButton = document.getElementById("install");//document.createElement('button');
+		/*installButton.addEventListener('click', function(){
+		   prompt.prompt();
+
+		   let result = await that.prompt.userChoice;
+			  if (result&&result.outcome === 'accepted') {
+			     installed = true;
+			  }
+		})*/
+
+		window.addEventListener('appinstalled', async function(e) {
+   			installButton.style.display = "none";
+		});
+
+		window.onload = function() {
+			console.log('here')
+			init();
+		};
 
 function init() {
 
