@@ -125,10 +125,10 @@
 		</table>
 	</aside>
 </div>
-<script src="js/model.js">
+<script>
 	
 	if ('serviceWorker' in navigator) {
-	  navigator.serviceWorker.register('/sw-test/sw.js', { scope: '/sw-test/' }).then(function(reg) {
+	  navigator.serviceWorker.register('/synth/sw.js', { scope: '/synth/' }).then(function(reg) {
 
 	    if(reg.installing) {
 	      console.log('Service worker installing');
