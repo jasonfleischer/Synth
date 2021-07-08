@@ -5,20 +5,20 @@
   	"icons": [
   		{
       		"src": "img/screen.png",
-      		"sizes": "575x567",
+      		"sizes": "512x512",
       		"type": "image/png",
       		"purpose": "any maskable"
     	},
     	{
       		"src": "img/screen.png",
-      		"sizes": "575x567",
+      		"sizes": "512x512",
       		"type": "image/png"
     	}
   	],
   	"screenshots": [
     	{
       		"src": "img/screen.png",
-      		"sizes": "575x567",
+      		"sizes": "512x512",
       		"type": "image/png",
       		"purpose": "any maskable"
     	}
