@@ -31,7 +31,14 @@ select {
 }
 
 button {
+	height: 48px;
 	min-width: 50px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+input {
+	height: 48px;
 }
 
 canvas {
@@ -40,10 +47,10 @@ canvas {
 	height: 150px;
 }
 
-#Csharp {
+.Csharp {
 	margin-left: 27px;
 }
 
-#Fsharp {
+.Fsharp {
 	margin-left: 55px;
 }
