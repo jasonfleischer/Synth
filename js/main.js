@@ -67,6 +67,7 @@ init()
 
 function init() {
 
+	console.log("init main.js")
 	load_cookies()
 
 	setupOscillatorTypeSlider()
