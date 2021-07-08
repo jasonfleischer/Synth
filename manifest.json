@@ -19,7 +19,7 @@
   	],
 	"display": "standalone",
 	"orientation": "portrait",
-	"start_url": "/?source=pwa",
+	"start_url": "/synth",
 	"theme_color": "#000000",
 	"background_color": "#ffffff"
 
