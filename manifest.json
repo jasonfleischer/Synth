@@ -13,6 +13,6 @@
 	"orientation": "portrait",
 	"start_url": "/?source=pwa",
 	"theme_color": "#000000",
-	"background_color": "#ffffff",
+	"background_color": "#ffffff"
 
 }
