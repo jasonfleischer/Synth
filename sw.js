@@ -4,12 +4,12 @@ self.addEventListener('install', function(event) {
       return cache.addAll([
         '/synth/',
         '/synth/index.html',
-        '/synth/main.css',
-        '/synth/model.js',
-        '/synth/cookies.js',
-        '/synth/oscillator.js',
-        '/synth/note.js',
-        '/synth/main.js'
+        '/synth/css/main.css',
+        '/synth/js/model.js',
+        '/synth/js/cookies.js',
+        '/synth/js/oscillator.js',
+        '/synth/js/note.js',
+        '/synth/js/main.js'
       ]);
     })
   );
