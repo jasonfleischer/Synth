@@ -1,6 +1,7 @@
 {
-	"short_name": "Metronome",
-  	"name": "Metronome",
+	"short_name": "Synth",
+  	"name": "Synth",
+  	"description": "Synth",
   	"icons": [
   		{
       		"src": "img/favicon.png",
