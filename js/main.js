@@ -100,20 +100,18 @@ let installable = false
 		});
 
 		let installButton = document.getElementById("install");//document.createElement('button');
-		installButton.addEventListener('click', function(){
+		installButton.addEventListener('click', async () => {
 		   	console.log('do prompt')
 		   	prompt.prompt();
-		   	userResult()
-		   	async function userResult() {
-		   		let result = await that.prompt.userChoice;
-			  	if (result&&result.outcome === 'accepted') {
-			    	installed = true;
-			    	console.log('installed')
-			  	}
-		   	}
+		   	const { outcome } = await prompt.userChoice;
+
+			console.log(`User response to the install prompt: ${outcome}`);
+
+  			prompt = null;
 		})
 
 		window.addEventListener('appinstalled', async function(e) {
+			console.log('appinstalled')
    			installButton.style.display = "none";
 		});
 
