@@ -111,7 +111,7 @@ let installable = false
 		})
 
 		window.addEventListener('appinstalled', async function(e) {
-			console.log('appinstalled')
+			console.log('PWA appinstalled')
    			installButton.style.display = "none";
 		});
 
