@@ -100,12 +100,16 @@ let installable = false
 
 		let installButton = document.getElementById("install");//document.createElement('button');
 		installButton.addEventListener('click', function(){
-		   prompt.prompt();
-
-		   /*let result = await that.prompt.userChoice;
-			  if (result&&result.outcome === 'accepted') {
-			     installed = true;
-			  }*/
+		   	console.log('do prompt')
+		   	prompt.prompt();
+		   	userResult()
+		   	async function userResult() {
+		   		let result = await that.prompt.userChoice;
+			  	if (result&&result.outcome === 'accepted') {
+			    	installed = true;
+			    	console.log('installed')
+			  	}
+		   	}
 		})
 
 		window.addEventListener('appinstalled', async function(e) {
@@ -113,7 +117,7 @@ let installable = false
 		});
 
 		window.onload = function() {
-			console.log('here')
+			
 			init();
 		};
 
