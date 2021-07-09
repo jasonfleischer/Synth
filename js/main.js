@@ -102,10 +102,10 @@ let installable = false
 		installButton.addEventListener('click', function(){
 		   prompt.prompt();
 
-		   let result = await that.prompt.userChoice;
+		   /*let result = await that.prompt.userChoice;
 			  if (result&&result.outcome === 'accepted') {
 			     installed = true;
-			  }
+			  }*/
 		})
 
 		window.addEventListener('appinstalled', async function(e) {
