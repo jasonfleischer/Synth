@@ -95,6 +95,7 @@ let installable = false
 		  // Prevent the mini-infobar from appearing on mobile
 		  e.preventDefault();
 		  // Stash the event so it can be triggered later.
+		  console.log('prompt set')
 		  prompt = e;
 		});
 
