@@ -97,9 +97,11 @@ let installable = false
 		  // Stash the event so it can be triggered later.
 		  console.log('beforeinstallprompt')
 		  prompt = e;
+		  installButton.style.display = "block"
 		});
 
 		let installButton = document.getElementById("install");//document.createElement('button');
+		installButton.style.display = "none"
 		installButton.addEventListener('click', async () => {
 		   	console.log('do prompt')
 		   	prompt.prompt();
