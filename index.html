@@ -8,6 +8,11 @@
 		<meta name='viewport' content='width=device-width, height=device-height, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, shrink-to-fit=no'>
 		<meta name="theme-color" content="#000"/>
 		
+		<link rel="stylesheet" href="css/root.css">
+		
+		<link rel="stylesheet" href="css/button.css">
+		<link rel="stylesheet" href="css/slider.css">
+		<link rel="stylesheet" href="css/select.css">
 		<link rel="stylesheet" href="css/main.css">
 		<link rel="icon" type="image/png" sizes="32x32" href="img/favicon.png">
 
@@ -27,117 +32,98 @@
 	</head>
 	<body>
 		<main>
-			<p>Sine</p>
-			<button class="Csharp" onclick="tapCsharp(this, 3)">C#</button>
-			<button onclick="tapDsharp(this, 3)">D#</button>
-			<button class="Fsharp" onclick="tapFsharp(this, 3)">F#</button>
-			<button onclick="tapGsharp(this, 3)">G#</button>
-			<button onclick="tapAsharp(this, 3)">A#</button>
-			<br/>
-			<button onclick="tapC(this, 3)">C3</button>
-			<button onclick="tapD(this, 3)">D</button>
-			<button onclick="tapE(this, 3)">E</button>
-			<button onclick="tapF(this, 3)">F</button>
-			<button onclick="tapG(this, 3)">G</button>
-			<button onclick="tapA(this, 3)">A</button>
-			<button onclick="tapB(this, 3)">B</button>
-			<button onclick="tapC(this, 4)">C4</button>
-			<p>Harmonic</p>
-			<button class="Csharp" onclick="tapCsharp(this, 3, true)">C#</button>
-			<button id="Dsharp" onclick="tapDsharp(this, 3, true)">D#</button>
-			<button class="Fsharp" onclick="tapFsharp(this, 3, true)">F#</button>
-			<button id="Gsharp" onclick="tapGsharp(this, 3, true)">G#</button>
-			<button id="Asharp" onclick="tapAsharp(this, 3, true)">A#</button>
-			<br/>
-			<button id="C3" onclick="tapC(this, 3, true)">C3</button>
-			<button id="D" onclick="tapD(this, 3, true)">D</button>
-			<button id="E" onclick="tapE(this, 3, true)">E</button>
-			<button id="F" onclick="tapF(this, 3, true)">F</button>
-			<button id="G" onclick="tapG(this, 3, true)">G</button>
-			<button id="A" onclick="tapA(this, 3, true)">A</button>
-			<button id="B" onclick="tapB(this, 3, true)">B</button>
-			<button id="C4" onclick="tapC(this, 4, true)">C4</button>
-			<br/><br/>
-			<button id="stop" onclick="stop()">Stop</button>
-			<button id="stop_delay" onclick="fadeStop()">Fade Out</button>
-			
-			<br></br>
-			<canvas id="oscilloscope"></canvas>
-			<button onclick="toggleDrawing()">S</button>
+			<article>
+				<button class="Csharp" onclick="tapCsharp(this, 3, true)">C#</button>
+				<button id="Dsharp" onclick="tapDsharp(this, 3, true)">D#</button>
+				<button class="Fsharp" onclick="tapFsharp(this, 3, true)">F#</button>
+				<button id="Gsharp" onclick="tapGsharp(this, 3, true)">G#</button>
+				<button id="Asharp" onclick="tapAsharp(this, 3, true)">A#</button>
+				<br/>
+				<button id="C3" onclick="tapC(this, 3, true)">C3</button>
+				<button id="D" onclick="tapD(this, 3, true)">D</button>
+				<button id="E" onclick="tapE(this, 3, true)">E</button>
+				<button id="F" onclick="tapF(this, 3, true)">F</button>
+				<button id="G" onclick="tapG(this, 3, true)">G</button>
+				<button id="A" onclick="tapA(this, 3, true)">A</button>
+				<button id="B" onclick="tapB(this, 3, true)">B</button>
+				<button id="C4" onclick="tapC(this, 4, true)">C4</button>
+				<br/><br/>
+				<button id="stop" onclick="stop()">Stop</button>
+				<button id="stop_delay" onclick="fadeStop()">Fade Out</button>
+				<button id="install">Install to home screen</button>
+				<br/><br/>
+			</article>
+			<article>
+				<div id="oscilloscope_container">
+					<canvas id="oscilloscope"></canvas>
+					<button id="oscilloscope_button" onclick="toggleDrawing(this)">S</button>
+				</div>
+			</article>
 
-			<p>Tests</p>
+			<!--<p>Tests</p>
 			<button id="wave_table" onclick="doWaveTable()">Wavetable (A3)</button>
-			<button id="sound_clip" onclick="doSoundClip()">Sound Clip</button>
+			<button id="sound_clip" onclick="doSoundClip()">Sound Clip</button>-->
 		</main>
 
 		<aside>
-			<button id="install">Install to home screen</button>
-			<p><strong>Settings</strong></p>
-			<table>
-				<tr>
-					<td><label id="oscillatorType" for="oscillatorTypeRange"></label></td>
-					<td><input type="range" min="0" max="3" value="1" step="1" class="slider" id="oscillatorTypeRange" /></td>
-				</tr>
-				<tr>
-					<td><label id="volume" for="volumeRange"></label></td>
-					<td>
-						<input type="range" min="0" max="1000" value="1000" step="0.000001" class="slider" id="volumeRange" />
-					</td>
-				</tr>
-				<tr>
-					<td><label id="fade" for="fadeRange"></label></td>
-					<td><input type="range" min="0.5" max="30" value="0" step="0.5" class="slider" id="fadeRange" /></td>
-				</tr>
-				<tr>
-					<td id="duration"></td>
-					<td><select id="duration_select">
-						<option value="-1" selected="selected">Infinite</option>
-						<option value="1">1 min</option>
-						<option value="5">5 min</option>
-						<option value="10">10 min</option>
-						<option value="15">15 min</option>
-						<option value="20">20 min</option>
-						<option value="30">30 min</option>
-						<option value="45">45 min</option>
-						<option value="60">1 hour</option>
-					</select></td>
-				</tr>
-
-
-				<!--<tr>
-					<th>Reverb</th> 
-				</tr>
-				<tr>
-					<td id="reverbDecay"></td>
-					<td><input type="range" min="0" max="10" value="5" step="0.05" class="slider" id="reverbDecayRange" /></td>
-				</tr>
-				<tr>
-					<td id="reverbDuration"></td>
-					<td><input type="range" min="0" max="10" value="5" step="0.05" class="slider" id="reverbDurationRange" /></td>
-				</tr>
-				<tr>-->
-					<th>Tremolo</th> 
-				</tr>
-				<tr>
-					<td><label id="bpm" for="bpmRange"></label></td>
-					<td><input type="range" min="40" max="208" value="120" step="1" class="slider" id="bpmRange" /></td>
-				</tr>
-				<tr>
-					<td><label id="tremoloMin" for="tremoloMinRange"></label></td>
-					<td><input type="range" min="0" max="100" value="5" step="0.5" class="slider" id="tremoloMinRange" /></td>
-				</tr>
-				<tr>
-					<td><label id="tremoloMax" for="tremoloMaxRange"></label></td>
-					<td><input type="range" min="0" max="100" value="5" step="0.5" class="slider" id="tremoloMaxRange" /></td>
-				</tr>
-				<tr>
-					<td><label for="tremoloVisualizationRange">Visualization</label></td>
-					<td><input type="range" disabled min="0" max="100" value="0" step="0.5" class="slider" id="tremoloVisualizationRange" /></td>
-				</tr>
-			</table>
-			<p><strong>Harmonics</strong></p>
-			<table id="harmonics_table">
-			</table>
+			<article>
+				<p><strong>Settings</strong></p>
+				<table>
+					<tr>
+						<td><label id="oscillatorType" for="oscillatorTypeRange"></label></td>
+						<td><input type="range" min="0" max="3" value="1" step="1" class="slider" id="oscillatorTypeRange" /></td>
+					</tr>
+					<tr>
+						<td><label id="volume" for="volumeRange"></label></td>
+						<td>
+							<input type="range" min="0" max="1000" value="1000" step="0.000001" class="slider" id="volumeRange" />
+						</td>
+					</tr>
+					<tr>
+						<td><label id="fade" for="fadeRange"></label></td>
+						<td><input type="range" min="0.5" max="30" value="0" step="0.5" class="slider" id="fadeRange" /></td>
+					</tr>
+					<tr>
+						<td id="duration"></td>
+						<td><select id="duration_select">
+							<option value="-1" selected="selected">Infinite</option>
+							<option value="1">1 min</option>
+							<option value="5">5 min</option>
+							<option value="10">10 min</option>
+							<option value="15">15 min</option>
+							<option value="20">20 min</option>
+							<option value="30">30 min</option>
+							<option value="45">45 min</option>
+							<option value="60">1 hour</option>
+						</select></td>
+					</tr>
+				</table>
+			</article>		
+			<article>
+				<p><strong>Tremolo</strong></p>
+				<table>
+					<tr>
+						<td><label id="bpm" for="bpmRange"></label></td>
+						<td><input type="range" min="40" max="208" value="120" step="1" class="slider" id="bpmRange" /></td>
+					</tr>
+					<tr>
+						<td><label id="tremoloMin" for="tremoloMinRange"></label></td>
+						<td><input type="range" min="0" max="100" value="5" step="0.5" class="slider" id="tremoloMinRange" /></td>
+					</tr>
+					<tr>
+						<td><label id="tremoloMax" for="tremoloMaxRange"></label></td>
+						<td><input type="range" min="0" max="100" value="5" step="0.5" class="slider" id="tremoloMaxRange" /></td>
+					</tr>
+					<tr>
+						<td><label for="tremoloVisualizationRange">Visualization</label></td>
+						<td><input type="range" disabled min="0" max="100" value="0" step="0.5" class="slider" id="tremoloVisualizationRange" /></td>
+					</tr>
+				</table>
+			</article>
+			<article>
+				<p><strong>Harmonics</strong></p>
+				<table id="harmonics_table"></table>
+			</article>
 		</aside>
 	</div>
 

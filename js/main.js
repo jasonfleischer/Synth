@@ -21,9 +21,6 @@ var analyserNode;
 var bufferLength
 var dataArray
 var masterVolume = 0.3;
-//var reverbNode;
-//var reverbDecay = 0.1
-//var reverbDuration = 0.1
 
 var notes = new Map();
 var lastNote;
@@ -178,34 +175,6 @@ function init() {
 			selectText.innerHTML = duration == -1 ? "Duration" : "Duration: " + duration + "min"
 		}
 	}
-	/*setupReverbDecaySlider()
-	function setupReverbDecaySlider() {
-		var slider = document.getElementById("reverbDecayRange");
-		slider.value = reverbDecay
-		var sliderText = document.getElementById("reverbDecay");
-		sliderText.innerHTML = "Decay: " + reverbDecay.toFixed(2) + "s"
-		slider.oninput = function() {
-			reverbDecay = parseFloat(this.value)
-			sliderText.innerHTML = "Decay: " + reverbDecay.toFixed(2) + "s"
-			if (setup) {
-				reverbNode.buffer = impulseResponse(ctx,reverbDuration,reverbDecay,false);
-			}
-		}
-	}
-	setupReverbDurationSlider()
-	function setupReverbDurationSlider() {
-		var slider = document.getElementById("reverbDurationRange");
-		slider.value = reverbDuration
-		var sliderText = document.getElementById("reverbDuration");
-		sliderText.innerHTML = "Duration: " + reverbDuration.toFixed(2) + "s"
-		slider.oninput = function() {
-			reverbDuration = parseFloat(this.value)
-			sliderText.innerHTML = "Duration: " + reverbDuration.toFixed(2) + "s"
-			if (setup) {
-				reverbNode.buffer = impulseResponse(ctx,reverbDuration,reverbDecay,false);
-			}
-		}
-	}*/
 	setupBpmSlider()
 	function setupBpmSlider() {
 		var slider = document.getElementById("bpmRange");
@@ -315,10 +284,6 @@ function startNote(elem, frequency, harmonic) {
 		masterGainNode = ctx.createGain();
 		masterGainNode.gain.value = masterVolume;
 
-		//reverbNode = ctx.createConvolver();
-		//reverbNode.buffer = impulseResponse(ctx,reverbDuration,reverbDecay,false);
-
-
 		compressorNode = ctx.createDynamicsCompressor();
 		compressorNode.threshold.setValueAtTime(-20, ctx.currentTime);
 		compressorNode.knee.setValueAtTime(40, ctx.currentTime);
@@ -352,7 +317,7 @@ function startNote(elem, frequency, harmonic) {
 		var note = notes.get(frequency);
 		if(note.playing){
 			note.stop()
-			elem.style.backgroundColor = "";
+			removeClass(elem, "selected");
 			notes.delete(frequency);
 			if(notes.size == 0){
 				playing = false	
@@ -381,25 +346,10 @@ function startNote(elem, frequency, harmonic) {
 	notes.set(frequency, lastNote);
 	lastNote.play()
 	
-	elem.style.backgroundColor = "yellow";
+	addClass(elem, "selected")
 }
 
-function impulseResponse(audioContext, duration, decay, reverse ) {
-	var sampleRate = audioContext.sampleRate;
-	var length = sampleRate * duration;
-	var impulse = audioContext.createBuffer(2, length, sampleRate);
-	var impulseL = impulse.getChannelData(0);
-	var impulseR = impulse.getChannelData(1);
 
-	if (!decay)
-		decay = 2.0;
-	for (var i = 0; i < length; i++){
-		var n = reverse ? length - i : i;
-		impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
-		impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
-	}
-	return impulse;
-}
 
 var durationStartTime;
 var durationTimeout;
@@ -650,13 +600,26 @@ function stop(delayTime=0.5) {
 		var buttons = document.getElementsByTagName('button');
 		for (let i = 0; i < buttons.length; i++) {
 		    let button = buttons[i];
-		    button.style.backgroundColor = ""
+		    removeClass(button, "selected");
 		}
 	}			
 }
 
 
 function log(msg) { console.log(msg) }
+
+function hasClass(ele,cls) {
+  return !!ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+}
+function addClass(ele,cls) {
+  if (!hasClass(ele,cls)) ele.className += " "+cls;
+}
+function removeClass(ele,cls) {
+  if (hasClass(ele,cls)) {
+    var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+    ele.className=ele.className.replace(reg,' ');
+  }
+}
 
 var canvas = document.getElementById("oscilloscope");
 var canvasCtx = canvas.getContext("2d");
@@ -701,8 +664,13 @@ function draw() {
 	}
 }
 
-function toggleDrawing(){
+function toggleDrawing(elem){
 	drawing = !drawing
+	if (drawing) {
+		removeClass(elem, "selected");
+	} else {
+		addClass(elem, "selected");
+	}
 }
 
 
