@@ -7,7 +7,7 @@
 body {
 	background: #000; 
 	color: #EEE;
-	min-width: 350px;
+	min-width: 340px;
 	font-family: 'SF Display Thin', sans-serif;
 }
 
@@ -22,7 +22,7 @@ aside {
   flex-wrap: wrap; 
 }
 article {
-	min-width: 350px;
+	min-width: 340px;
 	margin: 10px;
 }
 
