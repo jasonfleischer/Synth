@@ -61,7 +61,7 @@ var harmonicsVolume = /*[1.0, 0.286699025, 0.150079537, 0.042909002,
             0.004711017, 0.009014153]
 
 
-let installable = false
+/*let installable = false
 		let installed = false
 		
 		if ('serviceWorker' in navigator) {
@@ -112,7 +112,7 @@ let installable = false
 		window.addEventListener('appinstalled', async function(e) {
 			console.log('PWA appinstalled')
    			installButton.style.display = "none";
-		});
+		});*/
 
 		window.onload = function() {
 			
