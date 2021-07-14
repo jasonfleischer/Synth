@@ -35,12 +35,14 @@ main {
 	/*height: 160px;*/
   display: flex;
   flex-wrap: wrap; 
+  justify-content:  center;
 }
 
 aside {
   width: 100%;
   display: flex;
   flex-wrap: wrap; 
+  justify-content:  center;
   /*height: -moz-calc(100% - 220px);
         height: -webkit-calc(100% - 220px);
         height: calc(100% - 220px);
