@@ -30,7 +30,7 @@ this.addEventListener('install', function(event) {
 });
 
 this.addEventListener('fetch', function(event) {
-    console.log('fetch' + event);
+    console.log('fetch' + JSON.stringify(event, null, 4));
     event.respondWith(
         caches.open(cache_name).then(function(cache) {
             return cache.match(event.request).then(function(response) {
