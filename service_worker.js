@@ -1,5 +1,4 @@
-
-const cache_name = 'v3'
+const cache_name = 'v4'
 	
 this.addEventListener('install', function(event) {
   event.waitUntil(
