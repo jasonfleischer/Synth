@@ -5,6 +5,7 @@ this.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(cache_name).then(function(cache) {
       return cache.addAll([
+        '/synth/'
         '/synth/index.html',
         '/synth/css/root.css',
         '/synth/css/main.css',
