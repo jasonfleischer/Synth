@@ -40,6 +40,11 @@ function init() {
 	load_cookies()
 	alert.init()
 
+	var isSafariMobile = window.mobileCheck() && isSafari
+	if (isSafariMobile){
+		install.showAlert()
+	}
+	
 	setupOscillatorTypeSlider()
 	function setupOscillatorTypeSlider() {
 		var slider = $("oscillatorTypeRange");

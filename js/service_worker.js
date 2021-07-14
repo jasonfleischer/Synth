@@ -25,7 +25,7 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(version).then(function(cache) {
       return cache.addAll([
-        //'/synth/',
+        '/synth/',
         '/synth/index.html',
         '/synth/css/root.css',
         '/synth/css/main.css',
