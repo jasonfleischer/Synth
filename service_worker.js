@@ -1,15 +1,14 @@
-const cache_name = 'v6';
+const cache_name = 'v7';
 const CACHE = [
-        //'/synth/',
         '/synth/index.html',
         '/synth/css/root.css',
-        '/synth/css/main.css'/*,
+        '/synth/css/main.css',
         '/synth/css/button.css',
         '/synth/css/slider.css',
         '/synth/css/select.css',
         '/synth/css/header.css',
         '/synth/css/alert.css',
-        '/synth/js/prototype.js',
+        '/synth/js/prototypes.js',
         '/synth/js/model.js',
         '/synth/js/cookies.js',
         '/synth/js/oscillator.js',
@@ -17,8 +16,7 @@ const CACHE = [
         '/synth/js/alert.js',
         '/synth/js/information.js',
         '/synth/js/main.js',
-        '/synth/js/install.js'*/
-        
+        '/synth/js/install.js'
       ];
 	
 this.addEventListener('install', function(event) {
