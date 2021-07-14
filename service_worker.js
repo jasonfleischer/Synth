@@ -1,4 +1,4 @@
-const cache_name = 'v7';
+const cache_name = 'v8';
 const CACHE = [
         '/synth/index.html',
         '/synth/css/root.css',
