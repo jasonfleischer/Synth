@@ -5,23 +5,25 @@ this.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(cache_name).then(function(cache) {
       return cache.addAll([
-        'index.html',
-        '/css/root.css',
-        '/css/main.css',
-        '/css/button.css',
-        '/css/slider.css',
-        '/css/select.css',
-        '/css/header.css',
-        '/css/alert.css',
-        '/js/prototype.js',
-        '/js/model.js',
-        '/js/cookies.js',
-        '/js/oscillator.js',
-        '/js/note.js',
-        '/js/alert.js',
-        '/js/information.js',
-        '/js/install.js',
-        '/js/main.js'
+        '/synth/index.html',
+        '/synth/css/root.css',
+        '/synth/css/main.css',
+        '/synth/css/button.css',
+        '/synth/css/slider.css',
+        '/synth/css/select.css',
+        '/synth/css/header.css',
+        '/synth/css/alert.css',
+        '/synth/js/prototype.js',
+        '/synth/js/model.js',
+        '/synth/js/cookies.js',
+        '/synth/js/oscillator.js',
+        '/synth/js/note.js',
+        '/synth/js/alert.js',
+        '/synth/js/information.js',
+        '/synth/js/install.js',
+        '/synth/js/main.js'
+        //,
+        //'/synth/js/service_worker.js'
       ]);
     })
   );
