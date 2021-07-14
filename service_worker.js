@@ -1,7 +1,7 @@
 const cache_name = 'v5';
 const CACHE = [
-        '/synth/',
-        '/synth/index.html',
+        //'/synth/',
+        '/synth/index.html'/*,
         '/synth/css/root.css',
         '/synth/css/main.css',
         '/synth/css/button.css',
@@ -16,8 +16,9 @@ const CACHE = [
         '/synth/js/note.js',
         '/synth/js/alert.js',
         '/synth/js/information.js',
-        '/synth/js/install.js',
-        '/synth/js/main.js'
+        '/synth/js/main.js',
+        '/synth/js/install.js'*/
+        
       ];
 	
 this.addEventListener('install', function(event) {
