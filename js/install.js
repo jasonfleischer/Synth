@@ -3,7 +3,7 @@ let prompt;
 
 if ('serviceWorker' in navigator) {
 	
-  	navigator.serviceWorker.register('/synth/js/service_worker.js', { scope: '/synth/' }).then(function(reg) {
+  	navigator.serviceWorker.register('/synth/service_worker.js', { scope: '/synth/' }).then(function(reg) {
 
 	    if(reg.installing) {
 	      console.log('Service worker installing');
