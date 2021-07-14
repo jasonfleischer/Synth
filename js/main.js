@@ -26,109 +26,25 @@ var notes = new Map();
 var lastNote;
 
 
-		//oboe
-		//1 0.1122 -19  fundamental 	
-		//2 0.3890 -8.2					1.0
-		//3 0.0316 -30
-		//4 0.0398 -28
-		//5 0.0354 -29
-		//6 0.0298 -30.5
-		//7 0.0119 -38.5				0 -> min 0.01
-
-//var harmonicsVolume = [1, 0.1, 0.08, 0.05, 0.01, 0.01,  0.01, 0.001, 0.001, 0.001,
-	//				0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001];
-	//var harmonicsVolume = [1, 1, 1, 0.0, 0.0, 0.0,  0.0, 0.0, 0.0, 0.0,
-	//0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-
-var harmonicsVolume = /*[1.0, 0.286699025, 0.150079537, 0.042909002, 
-            0.203797365, 0.229228698, 0.156931925, 
-            0.115470898, 0.0, 0.097401803, 0.087653465, 
-            0.052331036, 0.052922462, 0.038850593, 
-            0.053554676, 0.053697434, 0.022270261, 
-            0.013072562, 0.008585879, 0.005771505,
-            0.004343925, 0.002141371, 0.005343231, 
-            0.000530244, 0.004711017, 0.009014153];*/
-
-            /*[1, 0.286699025, 0.63513, 0.042909002, 0.203797365, 0.26347000000000004, 
-            0.19442, 0.15434, 0, 0.11194000000000001, 0.13094, 0.04598, 0.02437,
-             0.038850593, 0.04765, 0.053697434, 0.022270261, 0.013072562, 0.008585879, 0.005771505, 0.004343925, 
-            0.002141371, 0.005343231, 0.000530244, 0.004711017, 0.009014153]*/
-
-
-            [1, 0.286699025, 0.63513, 0.042909002, 0.2522, 0.30904, 0.25045, 0.2004, 0, 0.14836, 
+var harmonicsVolume = [1, 0.286699025, 0.63513, 0.042909002, 0.2522, 0.30904, 0.25045, 0.2004, 0, 0.14836, 
             0.17415, 0.07979, 0.05383, 0.07332, 0.07206, 0.08451, 0.022270261, 0.013072562, 
             0.008585879, 0.005771505, 0.004343925, 0.002141371, 0.005343231, 0.000530244, 
             0.004711017, 0.009014153]
 
-
-/*let installable = false
-		let installed = false
-		
-		if ('serviceWorker' in navigator) {
-			installable = true
-		  navigator.serviceWorker.register('/synth/sw.js', { scope: '/synth/' }).then(function(reg) {
-
-		    if(reg.installing) {
-		      console.log('Service worker installing');
-		    } else if(reg.waiting) {
-		      console.log('Service worker installed');
-		    } else if(reg.active) {
-		      console.log('Service worker active');
-		      //init()
-		    }
-
-		  }).catch(function(error) {
-		    // registration failed
-		    console.log('Registration failed with ' + error);
-		  });
-		} else {
-			console.log('Service worker not available');
-		}
-
-
-
-		let prompt;
-		window.addEventListener('beforeinstallprompt', function(e){
-		  // Prevent the mini-infobar from appearing on mobile
-		  e.preventDefault();
-		  // Stash the event so it can be triggered later.
-		  console.log('beforeinstallprompt')
-		  prompt = e;
-		  installButton.style.display = "block"
-		});
-
-		let installButton = document.getElementById("install");//document.createElement('button');
-		installButton.style.display = "none"
-		installButton.addEventListener('click', async () => {
-		   	console.log('do prompt')
-		   	prompt.prompt();
-		   	const { outcome } = await prompt.userChoice;
-
-			console.log(`User response to the install prompt: ${outcome}`);
-
-  			prompt = null;
-		})
-
-		window.addEventListener('appinstalled', async function(e) {
-			console.log('PWA appinstalled')
-   			installButton.style.display = "none";
-		});*/
-
-		window.onload = function() {
-			
-			init();
-		};
+window.onload = function() {
+	init();
+};
 
 function init() {
 
-	console.log("init main.js")
 	load_cookies()
+	alert.init()
 
 	setupOscillatorTypeSlider()
 	function setupOscillatorTypeSlider() {
-		var slider = document.getElementById("oscillatorTypeRange");
+		var slider = $("oscillatorTypeRange");
 		slider.value = oscillatorTypeIndex 
-		var sliderText = document.getElementById("oscillatorType");
+		var sliderText = $("oscillatorType");
 		sliderText.innerHTML = "Oscillator: " + oscillatorTypes[oscillatorTypeIndex]
 		slider.oninput = function() {
 			oscillatorTypeIndex = parseInt(this.value)
@@ -139,9 +55,9 @@ function init() {
 
 	setupVolumeSlider()
 	function setupVolumeSlider() {
-		var slider = document.getElementById("volumeRange");
+		var slider = $("volumeRange");
 		slider.value = masterVolume*1000
-		var sliderText = document.getElementById("volume");
+		var sliderText = $("volume");
 		sliderText.innerHTML = "Volume: " + (masterVolume*100).toFixed() + "%"
 		slider.oninput = function() {
 			masterVolume = Math.max(0.00001, this.value / 1000)
@@ -154,9 +70,9 @@ function init() {
 	}
 	setupFadeSlider()
 	function setupFadeSlider() {
-		var slider = document.getElementById("fadeRange");
+		var slider = $("fadeRange");
 		slider.value = fade_in_seconds
-		var sliderText = document.getElementById("fade");
+		var sliderText = $("fade");
 		sliderText.innerHTML = "Fade: " + fade_in_seconds.toFixed(1) + "s"
 		slider.oninput = function() {
 			fade_in_seconds = parseFloat(this.value);
@@ -166,9 +82,9 @@ function init() {
 
 	setupDurationSelect()
 	function setupDurationSelect() {
-		var select = document.getElementById("duration_select");
+		var select = $("duration_select");
 		select.value = duration
-		var selectText = document.getElementById("duration");
+		var selectText = $("duration");
 		selectText.innerHTML = duration == -1 ? "Duration" : "Duration: " + duration + "min"
 		select.oninput = function() {
 			duration = parseFloat(this.value);
@@ -177,9 +93,9 @@ function init() {
 	}
 	setupBpmSlider()
 	function setupBpmSlider() {
-		var slider = document.getElementById("bpmRange");
+		var slider = $("bpmRange");
 		slider.value = bpm
-		var sliderText = document.getElementById("bpm");
+		var sliderText = $("bpm");
 		sliderText.innerHTML = "BPM: " + bpm
 		slider.oninput = function() {
 			bpm = parseInt(this.value)
@@ -189,9 +105,9 @@ function init() {
 
 	setupTremoloMinSlider()
 	function setupTremoloMinSlider() {
-		var slider = document.getElementById("tremoloMinRange");
+		var slider = $("tremoloMinRange");
 		slider.value = tremoloMin * 100
-		var sliderText = document.getElementById("tremoloMin");
+		var sliderText = $("tremoloMin");
 		sliderText.innerHTML = "Min: " + tremoloMin.toFixed(2)
 		slider.oninput = function() {
 			var v = parseFloat(this.value) / 100
@@ -201,9 +117,9 @@ function init() {
 	}
 	setupTremoloMaxSlider()
 	function setupTremoloMaxSlider() {
-		var slider = document.getElementById("tremoloMaxRange");
+		var slider = $("tremoloMaxRange");
 		slider.value = tremoloMax * 100
-		var sliderText = document.getElementById("tremoloMax");
+		var sliderText = $("tremoloMax");
 		sliderText.innerHTML = "Max: " + tremoloMax.toFixed(2)
 		slider.oninput = function() {
 			var v = parseFloat(this.value) / 100
@@ -216,14 +132,15 @@ function init() {
 	function setupHarmonicsTable() {
 		var i;
 
-		var table = document.getElementById("harmonics_table");
+		var table = $("harmonics_table");
 		var innerTableHtml = ""
 		for (i = 0; i < harmonicsVolume.length; i++) {
 			var value = harmonicsVolume[i];
 			var percentValue = value*100.0
-			innerTableHtml += "<tr><td style='width:150px'  ><label id='harmonic_text_"+i+"' for='harmonic_"+i+"'>H"+i+"</label></td><td><input type='range' min='0' max='100' value='"+percentValue+"' step='0.001' class='slider' style='width:150px;' id='harmonic_"+i+"' /></td></tr>";
-
-			
+			innerTableHtml += 	`<tr>
+									<td><label id='harmonic_text_`+i+`' for='harmonic_`+i+`'>H`+i+`</label></td>
+									<td><input type='range' min='0' max='100' value='`+percentValue+`' step='0.001' class='slider' id='harmonic_`+i+`'/></td>
+								</tr>`;
 		}
 		table.innerHTML = innerTableHtml
 
@@ -235,8 +152,8 @@ function init() {
 		function setupHarmonicSlider(i) {
 			var value = harmonicsVolume[i];
 			var percentValue = value*100.0
-			var slider = document.getElementById("harmonic_"+i);
-			var sliderText = document.getElementById("harmonic_text_"+i);
+			var slider = $("harmonic_"+i);
+			var sliderText = $("harmonic_text_"+i);
 			sliderText.innerHTML = "H" + i + ": " + percentValue.toFixed(3)
 			slider.oninput = function() {
 				var v = parseFloat(this.value) 
@@ -312,7 +229,6 @@ function startNote(elem, frequency, harmonic) {
 		
 	}
 
-
 	if (notes.has(frequency)) {
 		var note = notes.get(frequency);
 		if(note.playing){
@@ -362,7 +278,7 @@ function durationTimerWork(){
 
 	var timeExpired = Date.now() - durationStartTime
 
-	var buttonText = document.getElementById("stop_delay");
+	var buttonText = $("stop_delay");
 	var durationInMS = duration*60*1000;
 	var timeRemaining = durationInMS - timeExpired
 
@@ -400,7 +316,7 @@ function durationTimerWork(){
 }
 function stopDurationTimer() {
 	
-	var buttonText = document.getElementById("stop_delay");
+	var buttonText = $("stop_delay");
 	buttonText.innerHTML = "Fade Out"
 
 	clearTimeout(durationTimeout);
@@ -440,7 +356,7 @@ function fluctuateVolume() {
 }
 
 var startTime = Date.now()
-var visualizationSlider = document.getElementById("tremoloVisualizationRange");
+var visualizationSlider = $("tremoloVisualizationRange");
 var visualizationTimeout
 var visualizationfrequencyInHz = 0.5
 function visualizationUpdate() {
@@ -469,9 +385,20 @@ function visualizationUpdate() {
 	visualizationTimeout = setTimeout(visualizationUpdate, 40);
 }
 
-function doSoundClip() {
+function kofi(){
+	window.open("https://ko-fi.com/jasonfleischer", "_blank");
+}
+
+function info(){
+	information.showAlert()
+}
+function dismissInfo(){
+	information.dismissAlert()
+}
+
+/*function doSoundClip() {
 	var context = new AudioContext() || new webkitAudioContext(),
-request = new XMLHttpRequest();
+	request = new XMLHttpRequest();
 
     request.open("GET", "audio/C.wav", true);
     request.responseType = "arraybuffer";
@@ -504,24 +431,11 @@ request = new XMLHttpRequest();
     }
     
     request.send();
-		
-	
-
-	/*
-		window.AudioContext = window.AudioContext || window.webkitAudioContext;
-		ctx = new AudioContext();
-   // const audioCtx = new AudioContext();
-		//const audio = new Audio("/Users/fleischer/Documents/float.mp3");
-		const audio = document.getElementById("audio");
-		//audio.crossOrigin = "anonymous";
-		//const source = ctx.createMediaElementSource(audio);
-		//source.connect(ctx.destination)
-		audio.play();*/
-}
+}*/
 
 var waveTablePlaying = false
 var osc;
-function doWaveTable() {
+/*function doWaveTable() {
 
 	
 	if (waveTablePlaying) {
@@ -534,7 +448,6 @@ function doWaveTable() {
 		var imag = new Float32Array(size);
 		var ac = new AudioContext();
 		osc = ac.createOscillator();
-		//osc.type = "custom";
 		osc.frequency.value = 220;
 		imag[0] = 1; // for fundamental
 		real[0] = 0; // for fundamental
@@ -569,7 +482,7 @@ function doWaveTable() {
 		draw()
 	}
 	waveTablePlaying = !waveTablePlaying;
-}
+}*/
 
 function setOscillatorType(type){
 	for(const [frequency, note] of notes) {
@@ -582,7 +495,6 @@ function fadeStop() {
 }
 
 function stop(delayTime=0.5) {
-	//clearTimeout(timeout);
 
 	if (!playing) return
 
@@ -621,7 +533,7 @@ function removeClass(ele,cls) {
   }
 }
 
-var canvas = document.getElementById("oscilloscope");
+var canvas = $("oscilloscope");
 var canvasCtx = canvas.getContext("2d");
 var drawing = true
 
@@ -634,11 +546,11 @@ function draw() {
 
 		analyserNode.getByteTimeDomainData(dataArray);
 
-		canvasCtx.fillStyle = "#FFF";
+		canvasCtx.fillStyle = "#000";
 		canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
 		canvasCtx.lineWidth = 2;
-		canvasCtx.strokeStyle = "#000";
+		canvasCtx.strokeStyle = "#fff";
 
 		canvasCtx.beginPath();
 

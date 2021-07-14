@@ -1,7 +1,20 @@
 @font-face {
-    font-family: "SF Display Thin";
-    font-display: block;
-    src: url("../fonts/SF_Pro_Display_Thin.woff2");
+  font-family: "SF Display Thin";
+  font-display: block;
+  src: url("../fonts/SF_Pro_Display_Thin.woff2");
+}
+
+html, body {
+   
+    margin: 0px;
+    padding: 0px;
+    top: 0;
+    bottom: 0;
+    min-width: 320px;
+    font-size: 15px;
+    -webkit-text-size-adjust:none;
+    min-height: -webkit-fill-available;
+    height: -webkit-fill-available;
 }
 
 body {
@@ -9,18 +22,32 @@ body {
 	color: #EEE;
 	min-width: 340px;
 	font-family: 'SF Display Thin', sans-serif;
+	margin: 0px;
+	padding: 0px;
+	/*background: var(--primary-background-color);
+  background-image: linear-gradient(to bottom, var(--secondary-background-color), var(--primary-background-color));
+*/
 }
 
 main {
 	width: 100%;
+	padding-top: var(--header-height);
+	/*height: 160px;*/
   display: flex;
   flex-wrap: wrap; 
 }
+
 aside {
   width: 100%;
   display: flex;
   flex-wrap: wrap; 
+  /*height: -moz-calc(100% - 220px);
+        height: -webkit-calc(100% - 220px);
+        height: calc(100% - 220px);
+        
+        overflow: auto;*/
 }
+
 article {
 	min-width: 340px;
 	margin: 10px;
@@ -32,7 +59,6 @@ table {
 th {
 	text-align: left;
 }
-
 tr td {
 	width: 50%;
 	height:  48px;
@@ -44,7 +70,7 @@ select {
 }
 
 button {
-	min-width: 40px;
+	min-width: 36px;
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
@@ -55,10 +81,16 @@ input {
 
 canvas {
 	position: absolute;
-	background: #fff;
+	background: #000;
 	width: 100%;
+	height: 135px;
+	border: 2px var(--tertiary-background-color) solid;
+}
 
-	height: 145px;
+strong {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #007bff;
 }
 
 .slider {
@@ -75,10 +107,9 @@ canvas {
 
 #oscilloscope_container {
 	position: relative;
-	
 	height: 145px;
 }
 #oscilloscope_button {
 	position: absolute;
-	margin: 5px;
+	margin: 7px;
 }

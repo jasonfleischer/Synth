@@ -10,6 +10,7 @@ self.addEventListener('install', function(event) {
         '/synth/css/button.css',
         '/synth/css/slider.css',
         '/synth/css/select.css',
+        '/synth/css/header.css',
         '/synth/js/model.js',
         '/synth/js/cookies.js',
         '/synth/js/oscillator.js',
