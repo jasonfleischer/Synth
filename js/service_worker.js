@@ -42,8 +42,9 @@ self.addEventListener('install', function(event) {
         '/synth/js/alert.js',
         '/synth/js/information.js',
         '/synth/js/install.js',
-        '/synth/js/main.js',
-        '/synth/js/service_worker.js'
+        '/synth/js/main.js'
+        //,
+        //'/synth/js/service_worker.js'
       ]);
     })
   );
