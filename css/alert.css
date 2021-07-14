@@ -1,6 +1,6 @@
 #alert_container {
     display: none;
-    position: absolute;
+    position: fixed;
      width: 100%;
     height: 100%;
     background-color: #00000099; /*transparent*/
