@@ -4,6 +4,8 @@ const cache_name = 'v3'
 this.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(cache_name).then(function(cache) {
+
+        cache.delete('/synth/js/service_worker.js')
       return cache.addAll([
         '/synth/',
         '/synth/index.html',
