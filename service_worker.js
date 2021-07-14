@@ -1,9 +1,9 @@
-const cache_name = 'v5';
+const cache_name = 'v6';
 const CACHE = [
         //'/synth/',
-        '/synth/index.html'/*,
+        '/synth/index.html',
         '/synth/css/root.css',
-        '/synth/css/main.css',
+        '/synth/css/main.css'/*,
         '/synth/css/button.css',
         '/synth/css/slider.css',
         '/synth/css/select.css',
