@@ -22,8 +22,6 @@ this.addEventListener('install', function(event) {
         '/synth/js/information.js',
         '/synth/js/install.js',
         '/synth/js/main.js'
-        //,
-        //'/synth/js/service_worker.js'
       ]);
     })
   );

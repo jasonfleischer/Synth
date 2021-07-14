@@ -43,7 +43,6 @@ install.showAlert = function(install_action){
 		<br/>
 	`
 
-	var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 	var isSafariMobile = window.mobileCheck() && isSafari
 	if (isSafariMobile){
 		contents += `
