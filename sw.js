@@ -11,11 +11,17 @@ self.addEventListener('install', function(event) {
         '/synth/css/slider.css',
         '/synth/css/select.css',
         '/synth/css/header.css',
+        '/synth/css/alert.css',
+        '/synth/js/prototype.js',
         '/synth/js/model.js',
         '/synth/js/cookies.js',
         '/synth/js/oscillator.js',
         '/synth/js/note.js',
-        '/synth/js/main.js'
+        '/synth/js/alert.js',
+        '/synth/js/information.js',
+        '/synth/js/install.js',
+        '/synth/js/main.js',
+        '/synth/js/service_worker.js'
       ]);
     })
   );
