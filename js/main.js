@@ -39,7 +39,7 @@ function init() {
 	alert.init()
 
 	var isSafariMobile = window.mobileCheck() && isSafari
-	if (isSafariMobile){
+	if (isSafariMobile && !isFromHomeScreen()){
 		install.showAlert()
 	}
 	
