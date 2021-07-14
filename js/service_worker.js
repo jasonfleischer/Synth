@@ -1,26 +1,6 @@
-let prompt;
+
 let version = 'v2'
 	
-if ('serviceWorker' in navigator) {
-	
-  	navigator.serviceWorker.register('/synth/sw.js', { scope: '/synth/' }).then(function(reg) {
-
-	    if(reg.installing) {
-	      console.log('Service worker installing');
-	    } else if(reg.waiting) {
-	      console.log('Service worker installed');
-	    } else if(reg.active) {
-	      console.log('Service worker active');
-	    }
-
-	}).catch(function(error) { // registration failed
-	    console.log('Registration failed with ' + error);
-	});
-} else {
-	console.log('Service worker not available');
-}
-
-
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(version).then(function(cache) {
@@ -77,17 +57,7 @@ self.addEventListener('fetch', function(event) {
   }));
 });
 
-window.addEventListener('beforeinstallprompt', function(e){
-  	e.preventDefault(); // Prevent the mini-infobar from appearing on mobile
-  	prompt = e;
-});
 
-window.addEventListener('appinstalled', async function(e) {
-	//installButton.style.display = "none";
-	install.showAlert(function(){
-   		prompt.prompt();
-	})
-});
 
 
 
