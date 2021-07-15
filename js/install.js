@@ -30,7 +30,6 @@ window.addEventListener('beforeinstallprompt', function(e){
 });
 
 window.addEventListener('appinstalled', async function(e) {
-	//installButton.style.display = "none";
 	install.showAlert(function(){
    		prompt.prompt();
 	})

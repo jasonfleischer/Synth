@@ -1,4 +1,4 @@
-const cache_name = 'v8';
+const CACHE_NAME = 'v8';
 const CACHE = [
         '/synth/index.html',
         '/synth/css/root.css',
@@ -21,7 +21,7 @@ const CACHE = [
 	
 this.addEventListener('install', function(event) {
   event.waitUntil(
-    caches.open(cache_name).then(function(cache) {
+    caches.open(CACHE_NAME).then(function(cache) {
       return cache.addAll(CACHE);
     })
   );
@@ -30,7 +30,7 @@ this.addEventListener('install', function(event) {
 this.addEventListener('fetch', function(event) {
     console.log('fetch');
     event.respondWith(
-        caches.open(cache_name).then(function(cache) {
+        caches.open(CACHE_NAME).then(function(cache) {
             return cache.match(event.request).then(function(response) {
                 return response || fetch(event.request).then(function(response) {
                     cache.put(event.request, response.clone());
@@ -47,7 +47,7 @@ this.addEventListener('activate', function activator(event) {
         caches.keys().then(function(keys) {
             return Promise.all(keys
                 .filter(function(key) {
-                    return key.indexOf(cache_name) !== 0;
+                    return key.indexOf(CACHE_NAME) !== 0;
                 })
                 .map(function(key) {
                     return caches.delete(key);
