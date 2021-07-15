@@ -3,7 +3,11 @@ function $(id){
 	return document.getElementById(id);
 }
 
-var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent) &&
+			navigator.vendor && navigator.vendor.indexOf('Apple') > -1 &&
+            navigator.userAgent &&
+            navigator.userAgent.indexOf('CriOS') == -1 &&
+            navigator.userAgent.indexOf('FxiOS') == -1;
 
 window.mobileCheck = function() {
 	let check = false;
