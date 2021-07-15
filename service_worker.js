@@ -10,7 +10,7 @@ const CACHE = [
         '/synth/css/alert.css',
         '/synth/js/prototypes.js',
         '/synth/js/model.js',
-        '/synth/js/cookies.js',
+        '/synth/js/storage.js',
         '/synth/js/oscillator.js',
         '/synth/js/note.js',
         '/synth/js/alert.js',

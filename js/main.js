@@ -20,7 +20,7 @@ var masterGainNode;
 var analyserNode;
 var bufferLength
 var dataArray
-var masterVolume = cookies.get_volume(0.3);
+var masterVolume = storage.get_volume(0.3);
 
 var notes = new Map();
 var lastNote;
@@ -35,7 +35,7 @@ var harmonicsVolume = [1, 0.286699025, 0.63513, 0.042909002, 0.2522, 0.30904, 0.
 
 function init() {
 
-	load_cookies()
+	storage.load()
 	alert.init()
 
 	var isSafariMobile = window.mobileCheck() && isSafari
@@ -64,7 +64,7 @@ function init() {
 		sliderText.innerHTML = "Volume: " + (masterVolume*100).toFixed() + "%"
 		slider.oninput = function() {
 			masterVolume = Math.max(0.00001, this.value / 1000)
-			cookies.set_volume(masterVolume)
+			storage.set_volume(masterVolume)
 			sliderText.innerHTML = "Volume: " + (masterVolume*100).toFixed() + "%"
 			if (setup) {
 				masterGainNode.gain.setValueAtTime(masterVolume, ctx.currentTime);
