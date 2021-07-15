@@ -84,7 +84,7 @@ input {
 canvas {
 	position: absolute;
 	background: #000;
-	width: 100%;
+	width: 336px;
 	height: 135px;
 	border: 2px var(--tertiary-background-color) solid;
 }
