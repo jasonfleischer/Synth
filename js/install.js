@@ -6,11 +6,11 @@ if ('serviceWorker' in navigator) {
   	navigator.serviceWorker.register('/synth/service_worker.js', { scope: '/synth/' }).then(function(reg) {
 
 	    if(reg.installing) {
-	      console.log('Service worker installing');
+	      console.log('synth: Service worker installing');
 	    } else if(reg.waiting) {
-	      console.log('Service worker installed');
+	      console.log('synth: Service worker installed');
 	    } else if(reg.active) {
-	      console.log('Service worker active');
+	      console.log('synth: Service worker active');
 	    }
 
 	}).catch(function(error) { // registration failed

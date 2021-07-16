@@ -20,15 +20,16 @@ const CACHE = [
       ];
 	
 this.addEventListener('install', function(event) {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(function(cache) {
-      return cache.addAll(CACHE);
-    })
-  );
+    console.log('synth: install');
+    event.waitUntil(
+        caches.open(CACHE_NAME).then(function(cache) {
+            return cache.addAll(CACHE);
+        })
+    );
 });
 
 this.addEventListener('fetch', function(event) {
-    console.log('fetch');
+    console.log('synth: fetch');
     event.respondWith(
         caches.open(CACHE_NAME).then(function(cache) {
             return cache.match(event.request).then(function(response) {
@@ -42,7 +43,7 @@ this.addEventListener('fetch', function(event) {
 });
 
 this.addEventListener('activate', function activator(event) {
-    console.log('activate');
+    console.log('synth: activate');
     event.waitUntil(
         caches.keys().then(function(keys) {
             return Promise.all(keys
