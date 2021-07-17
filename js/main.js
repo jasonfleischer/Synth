@@ -137,7 +137,12 @@ function init() {
 		var i;
 
 		var table = $("harmonics_table");
-		var innerTableHtml = ""
+		var innerTableHtml = `<tr>
+									<td><button>R</button></td>
+									<td><button>P1</button></td>
+									<td><button>P2</button></td>
+									<td><button>P3</button></td>
+								</tr>`
 		for (i = 0; i < harmonicsVolume.length; i++) {
 			var value = harmonicsVolume[i];
 			var percentValue = value*100.0
@@ -492,6 +497,10 @@ function setOscillatorType(type){
 	for(const [frequency, note] of notes) {
 		note.setOscillatorType(type)
 	}
+}
+
+function setHarmonicVolume(volumeAry) {
+	
 }
 
 function fadeStop() {
