@@ -137,12 +137,7 @@ function init() {
 		var i;
 
 		var table = $("harmonics_table");
-		var innerTableHtml = `<tr>
-									<td><button>R</button></td>
-									<td><button>P1</button></td>
-									<td><button>P2</button></td>
-									<td><button>P3</button></td>
-								</tr>`
+		var innerTableHtml = ""
 		for (i = 0; i < harmonicsVolume.length; i++) {
 			var value = harmonicsVolume[i];
 			var percentValue = value*100.0
@@ -499,8 +494,56 @@ function setOscillatorType(type){
 	}
 }
 
+
+function harmonicsReset() {
+	//setHarmonicVolume([1, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+		setHarmonicVolume([1, 0.5, 0.25, 0.125, 0.0625, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+}
+function harmonicsPreset1() {
+	var volumeAry = [];
+	var numberOfHarmonicsToSet = 7;
+	for (i = 0; i < harmonicsVolume.length; i++) {
+		volumeAry[i] =  Math.max(0, 1 - (i/(numberOfHarmonicsToSet-1)));
+	}
+	setHarmonicVolume(volumeAry)
+}
+function harmonicsPreset2() {
+	var volumeAry = [];
+	var numberOfHarmonicsToSet = 5;
+	for (i = 0; i < harmonicsVolume.length; i++) {
+		if (i%2 == 0) {
+			volumeAry[i] =  Math.max(0, 1 - (i/(numberOfHarmonicsToSet*2-1)));
+		} else {
+			volumeAry[i] = 0;
+		}
+	}
+	setHarmonicVolume(volumeAry)
+}
+function harmonicsPreset3() {
+	var volumeAry = []
+	var numberOfHarmonicsToSet = 5;
+	for (i = 0; i < harmonicsVolume.length; i++) {
+			volumeAry[i] =  (100/(2+i-1))/100
+	}
+	setHarmonicVolume(volumeAry)
+}
+function harmonicsPreset4() {
+	setHarmonicVolume([1, 0.286699025, 0.63513, 0.042909002, 0.2522, 0.30904, 0.25045, 0.2004, 0, 0.14836, 
+            0.17415, 0.07979, 0.05383, 0.07332, 0.07206, 0.08451, 0.022270261, 0.013072562, 
+            0.008585879, 0.005771505, 0.004343925, 0.002141371, 0.005343231, 0.000530244, 
+            0.004711017, 0.009014153]);
+}
 function setHarmonicVolume(volumeAry) {
-	
+	for (i = 0; i < volumeAry.length; i++) {
+			$("harmonic_text_" + i).innerHTML = "H"+i+": "+(volumeAry[i]*100).toFixed(3)
+			$("harmonic_" + i).value = volumeAry[i]*100
+			harmonicsVolume[i] = volumeAry[i]
+
+				for(const [frequency, note] of notes) {
+					note.setHarmonicVolume(i, volumeAry[i])
+				}
+		}
 }
 
 function fadeStop() {
