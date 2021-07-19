@@ -1,7 +1,7 @@
 var install = {}
 let prompt;
 
-if ('serviceWorker' in navigator) {
+/*if ('serviceWorker' in navigator) {
 	
   	navigator.serviceWorker.register('/synth/service_worker.js', { scope: '/synth/' }).then(function(reg) {
 
@@ -18,7 +18,7 @@ if ('serviceWorker' in navigator) {
 	});
 } else {
 	console.log('Service worker not available');
-}
+}*/
 
 window.onload = function() {
 	init();

@@ -13,10 +13,19 @@ button {
     border-radius: .22rem;
     font-family : inherit;
 }
-button:focus {
-    outline: 0;
-    border: 1px solid var(--highlight-color);
+
+@media (min-width: 800px), (min-height: 500px) { /*desktop*/
+    button:focus {
+        outline: 0;
+        border: 1px solid var(--highlight-color);
+    }
+
 }
+
+@media (max-width: 800px), (max-height: 500px) { /*mobile mode*/
+    button:focus {}
+}
+
 button:hover {
     background-color: var(--tertiary-background-color);
     cursor: pointer;
