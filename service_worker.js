@@ -42,7 +42,7 @@ this.addEventListener('fetch', function(event) {
     );
 });
 
-this.addEventListener('activate', function activator(event) {
+/*this.addEventListener('activate', function activator(event) {
     console.log('synth: activate');
     event.waitUntil(
         caches.keys().then(function(keys) {
@@ -56,8 +56,9 @@ this.addEventListener('activate', function activator(event) {
             );
         })
     );
-});
+});*/
 
+this.addEventListener("activate", function(e) { self.registration.unregister() .then(function() { return self.clients.matchAll(); }) .
 
 
 
