@@ -30,7 +30,7 @@ this.addEventListener('install', function(event) {
 
 this.addEventListener('fetch', function(event) {
     console.log('synth: fetch');
-    event.respondWith(
+    /*event.respondWith(
         caches.open(CACHE_NAME).then(function(cache) {
             return cache.match(event.request).then(function(response) {
                 return response || fetch(event.request).then(function(response) {
@@ -39,7 +39,7 @@ this.addEventListener('fetch', function(event) {
                 });
             });
         })
-    );
+    );*/
 });
 
 /*this.addEventListener('activate', function activator(event) {
