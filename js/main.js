@@ -69,10 +69,7 @@ function init() {
 			sliderText.innerHTML = "Volume: " + (masterVolume*100).toFixed() + "%"
 			if (setup) {
 				masterGainNode.gain.setValueAtTime(masterVolume, ctx.currentTime);
-
 			}
-
-			console.log('volume change: ' + masterVolume)
 		}
 	}
 	setupFadeSlider()
