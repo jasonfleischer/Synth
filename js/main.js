@@ -71,6 +71,8 @@ function init() {
 				masterGainNode.gain.setValueAtTime(masterVolume, ctx.currentTime);
 
 			}
+
+			console.log('volume change: ' + masterVolume)
 		}
 	}
 	setupFadeSlider()
