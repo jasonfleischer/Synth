@@ -30,7 +30,7 @@ this.addEventListener('install', function(event) {
 
 this.addEventListener('fetch', function(event) {
     console.log('synth: fetch');
-    /*event.respondWith(
+    event.respondWith(
         caches.open(CACHE_NAME).then(function(cache) {
             return cache.match(event.request).then(function(response) {
                 return response || fetch(event.request).then(function(response) {
@@ -39,10 +39,10 @@ this.addEventListener('fetch', function(event) {
                 });
             });
         })
-    );*/
+    );
 });
 
-/*this.addEventListener('activate', function activator(event) {
+this.addEventListener('activate', function activator(event) {
     console.log('synth: activate');
     event.waitUntil(
         caches.keys().then(function(keys) {
@@ -56,9 +56,7 @@ this.addEventListener('fetch', function(event) {
             );
         })
     );
-});*/
-
-this.addEventListener("activate", function(e) { self.registration.unregister() .then(function() { return self.clients.matchAll(); }) .
+});
 
 
 

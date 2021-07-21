@@ -1,7 +1,7 @@
 var install = {}
 let prompt;
 
-/*if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator) {
 	
   	navigator.serviceWorker.register('/synth/service_worker.js', { scope: '/synth/' }).then(function(reg) {
 
@@ -18,17 +18,6 @@ let prompt;
 	});
 } else {
 	console.log('Service worker not available');
-}*/
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then(function (registrations) {
-    //returns installed service workers
-    if (registrations.length) {
-      for(let registration of registrations) {
-        registration.unregister();
-      }
-    }
-  });
 }
 
 window.onload = function() {
