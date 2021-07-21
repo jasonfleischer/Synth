@@ -15,21 +15,23 @@ button {
 }
 
 @media (min-width: 800px), (min-height: 500px) { /*desktop*/
-    button:focus {
-        outline: 0;
-        border: 1px solid var(--highlight-color);
+    button:hover {
+        background-color: var(--tertiary-background-color);
+        cursor: pointer;
     }
-
 }
 
 @media (max-width: 800px), (max-height: 500px) { /*mobile mode*/
-    button:focus {}
+    button:hover {
+        cursor: pointer;
+    }
 }
 
-button:hover {
-    background-color: var(--tertiary-background-color);
-    cursor: pointer;
+button:focus {
+    outline: 0;
+    border: 1px solid var(--highlight-color);
 }
+
 button.selected {
     color: var(--secondary-background-color);
     background-color: var(--primary-font-color);
