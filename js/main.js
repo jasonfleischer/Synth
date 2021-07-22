@@ -39,7 +39,7 @@ function init() {
 	alert.init()
 	updatePresetButtonsUI(5);
 
-	var isSafariMobile = window.mobileCheck() && isSafari
+	var isSafariMobile = window.mobileAndTabletCheck() && isSafari
 	if (isSafariMobile && !isFromHomeScreen()){
 		install.showAlert()
 	}

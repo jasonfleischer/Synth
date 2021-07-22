@@ -27,7 +27,7 @@ window.onload = function() {
 window.addEventListener('beforeinstallprompt', function(e){
   	e.preventDefault(); // Prevent the mini-infobar from appearing on mobile
   	prompt = e;
-  	if (window.mobileCheck()) {
+  	if (window.mobileAndTabletCheck()) {
 	  	install.showAlert(function(){
 	   		prompt.prompt();
 		});
@@ -45,7 +45,7 @@ install.showAlert = function(install_action){
 		<br/>
 	`
 
-	var isSafariMobile = window.mobileCheck() && isSafari
+	var isSafariMobile = window.mobileAndTabletCheck() && isSafari
 	if (isSafariMobile){
 		contents += `
 			<div id="ios_install_instructions">
