@@ -68,12 +68,13 @@ header #page_name {
     text-overflow: ellipsis;
 }
 #kofi_button img {
+    padding-left: 6px;
     float: left;
     padding-top: 2px;
     padding-right: 0px;
     padding-bottom: 2px;
     border:0px;
-    height:32px;
+    height:30px;
 }
 
 #info_button {
