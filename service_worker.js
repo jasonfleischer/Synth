@@ -1,25 +1,11 @@
-const CACHE_NAME = 'v0';
+const CACHE_NAME = 'v1';
 const CACHE = [
         '/synth/index.html',
-        '/synth/css/root.css',
-        '/synth/css/main.css',
-        '/synth/css/button.css',
-        '/synth/css/slider.css',
-        '/synth/css/select.css',
-        '/synth/css/header.css',
-        '/synth/css/alert.css',
-        '/synth/js/prototypes.js',
-        '/synth/js/model.js',
-        '/synth/js/storage.js',
-        '/synth/js/oscillator.js',
-        '/synth/js/note.js',
-        '/synth/js/alert.js',
-        '/synth/js/information.js',
-        '/synth/js/main.js',
-        '/synth/js/install.js'
+        '/synth/css/bundle.css',
+        '/synth/js/bundle.js'
       ];
 	
-this.addEventListener('install', function(event) {
+self.addEventListener('install', function(event) {
     console.log('synth: install');
     event.waitUntil(
         caches.open(CACHE_NAME).then(function(cache) {
@@ -28,7 +14,7 @@ this.addEventListener('install', function(event) {
     );
 });
 
-this.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function(event) {
     console.log('synth: fetch');
     event.respondWith(
         caches.open(CACHE_NAME).then(function(cache) {
@@ -42,7 +28,7 @@ this.addEventListener('fetch', function(event) {
     );
 });
 
-this.addEventListener('activate', function activator(event) {
+self.addEventListener('activate', function activator(event) {
     console.log('synth: activate');
     event.waitUntil(
         caches.keys().then(function(keys) {
@@ -57,7 +43,3 @@ this.addEventListener('activate', function activator(event) {
         })
     );
 });
-
-
-
-

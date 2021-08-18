@@ -24,30 +24,21 @@ body {
 	font-family: 'SF Display Thin', sans-serif;
 	margin: 0px;
 	padding: 0px;
-	/*background: var(--primary-background-color);
-  background-image: linear-gradient(to bottom, var(--secondary-background-color), var(--primary-background-color));
-*/
 }
 
 main {
 	width: 100%;
 	padding-top: var(--header-height);
-	/*height: 160px;*/
-  display: flex;
-  flex-wrap: wrap; 
-  justify-content:  center;
+	display: flex;
+	flex-wrap: wrap; 
+  	justify-content:  center;
 }
 
 aside {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap; 
-  justify-content:  center;
-  /*height: -moz-calc(100% - 220px);
-        height: -webkit-calc(100% - 220px);
-        height: calc(100% - 220px);
-        
-        overflow: auto;*/
+  	width: 100%;
+  	display: flex;
+  	flex-wrap: wrap; 
+  	justify-content:  center;
 }
 
 article {

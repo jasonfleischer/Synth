@@ -1,0 +1,25 @@
+{
+  "name": "synth",
+  "version": "1.0.0",
+  "description": "An exploration of JS AudioContext with wavetable & additive synthesis",
+  "main": "js/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasonfleischer/Synth.git"
+  },
+  "keywords": [
+    "synth",
+    "additive synthesis",
+    "synthesis"
+  ],
+  "author": "Jason R. A. Fleischer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jasonfleischer/synth#readme"
+  },
+  "homepage": "https://jasonfleischer.github.io/synth/",
+  "dependencies": {}
+}

@@ -5,21 +5,19 @@ var playing = false
 
 var setup = false;
 
-var oscillatorTypeIndex = 0
-var oscillatorTypes = ["sine", "triangle", "sawtooth", "square"]
 var tremoloNode;
 var bpm = 120;
-var tremoloMin = 0.7
-var tremoloMax = 1.0
+var tremoloMin = 0.7;
+var tremoloMax = 1.0;
 var tremoloVolume = 1.0;
 var fade_in_seconds = 25;
 var duration = 5;
 
-var compressorNode;
+compressorNode = {};
 var masterGainNode;
 var analyserNode;
-var bufferLength
-var dataArray
+var bufferLength;
+var dataArray;
 var masterVolume = storage.get_volume(0.3);
 
 var notes = new Map();
@@ -29,145 +27,145 @@ var lastNote;
 var harmonicsVolume = [1, 0.286699025, 0.63513, 0.042909002, 0.2522, 0.30904, 0.25045, 0.2004, 0, 0.14836, 
             0.17415, 0.07979, 0.05383, 0.07332, 0.07206, 0.08451, 0.022270261, 0.013072562, 
             0.008585879, 0.005771505, 0.004343925, 0.002141371, 0.005343231, 0.000530244, 
-            0.004711017, 0.009014153]
+            0.004711017, 0.009014153];
 
 
 
-function init() {
+init = function() {
 
-	storage.load()
-	alert.init()
+	storage.load();
+	alert.init();
 	updatePresetButtonsUI(5);
 
-	var isSafariMobile = window.mobileAndTabletCheck() && isSafari
+	var isSafariMobile = window.mobileAndTabletCheck() && isSafari;
 	if (isSafariMobile && !isFromHomeScreen()){
-		install.showAlert()
+		install.showAlert();
 	}
 	
-	setupOscillatorTypeSlider()
+	setupOscillatorTypeSlider();
 	function setupOscillatorTypeSlider() {
 		var slider = $("oscillatorTypeRange");
-		slider.value = oscillatorTypeIndex 
+		slider.value = model.oscillatorTypeIndex;
 		var sliderText = $("oscillatorType");
-		sliderText.innerHTML = "Oscillator: " + oscillatorTypes[oscillatorTypeIndex]
+		sliderText.innerHTML = "Oscillator: " + model.oscillatorTypes[model.oscillatorTypeIndex];
 		slider.oninput = function() {
-			oscillatorTypeIndex = parseInt(this.value)
-			sliderText.innerHTML = "Oscillator: " + oscillatorTypes[oscillatorTypeIndex]
-			setOscillatorType(oscillatorTypes[oscillatorTypeIndex])
+			model.oscillatorTypeIndex = parseInt(this.value);
+			sliderText.innerHTML = "Oscillator: " + model.oscillatorTypes[model.oscillatorTypeIndex];
+			setOscillatorType(model.oscillatorTypes[model.oscillatorTypeIndex]);
 		}
 	}
 
-	setupVolumeSlider()
+	setupVolumeSlider();
 	function setupVolumeSlider() {
 		var slider = $("volumeRange");
-		slider.value = masterVolume*1000
+		slider.value = masterVolume*1000;
 		var sliderText = $("volume");
-		sliderText.innerHTML = "Volume: " + (masterVolume*100).toFixed() + "%"
+		sliderText.innerHTML = "Volume: " + (masterVolume*100).toFixed() + "%";
 		slider.oninput = function() {
-			masterVolume = Math.max(0.00001, this.value / 1000)
-			storage.set_volume(masterVolume)
-			sliderText.innerHTML = "Volume: " + (masterVolume*100).toFixed() + "%"
+			masterVolume = Math.max(0.00001, this.value / 1000);
+			storage.set_volume(masterVolume);
+			sliderText.innerHTML = "Volume: " + (masterVolume*100).toFixed() + "%";
 			if (setup) {
 				masterGainNode.gain.setValueAtTime(masterVolume, ctx.currentTime);
 			}
 		}
 	}
-	setupFadeSlider()
+	setupFadeSlider();
 	function setupFadeSlider() {
 		var slider = $("fadeRange");
-		slider.value = fade_in_seconds
+		slider.value = fade_in_seconds;
 		var sliderText = $("fade");
-		sliderText.innerHTML = "Fade: " + fade_in_seconds.toFixed(1) + "s"
+		sliderText.innerHTML = "Fade: " + fade_in_seconds.toFixed(1) + "s";
 		slider.oninput = function() {
 			fade_in_seconds = parseFloat(this.value);
-			sliderText.innerHTML = "Fade: " + fade_in_seconds.toFixed(1) + "s"
+			sliderText.innerHTML = "Fade: " + fade_in_seconds.toFixed(1) + "s";
 		}
 	}
 
-	setupDurationSelect()
+	setupDurationSelect();
 	function setupDurationSelect() {
 		var select = $("duration_select");
-		select.value = duration
+		select.value = duration;
 		var selectText = $("duration");
-		selectText.innerHTML = duration == -1 ? "Duration" : "Duration: " + duration + "min"
+		selectText.innerHTML = duration == -1 ? "Duration" : "Duration: " + duration + "min";
 		select.oninput = function() {
 			duration = parseFloat(this.value);
-			selectText.innerHTML = duration == -1 ? "Duration" : "Duration: " + duration + "min"
+			selectText.innerHTML = duration == -1 ? "Duration" : "Duration: " + duration + "min";
 		}
 	}
-	setupBpmSlider()
+	setupBpmSlider();
 	function setupBpmSlider() {
 		var slider = $("bpmRange");
-		slider.value = bpm
+		slider.value = bpm;
 		var sliderText = $("bpm");
-		sliderText.innerHTML = "BPM: " + bpm
+		sliderText.innerHTML = "BPM: " + bpm;
 		slider.oninput = function() {
-			bpm = parseInt(this.value)
-			sliderText.innerHTML = "BPM: " + bpm
+			bpm = parseInt(this.value);
+			sliderText.innerHTML = "BPM: " + bpm;
 		}
 	}
 
-	setupTremoloMinSlider()
+	setupTremoloMinSlider();
 	function setupTremoloMinSlider() {
 		var slider = $("tremoloMinRange");
-		slider.value = tremoloMin * 100
+		slider.value = tremoloMin * 100;
 		var sliderText = $("tremoloMin");
-		sliderText.innerHTML = "Min: " + tremoloMin.toFixed(2)
+		sliderText.innerHTML = "Min: " + tremoloMin.toFixed(2);
 		slider.oninput = function() {
-			var v = parseFloat(this.value) / 100
-			tremoloMin = Math.min(tremoloMax, v)
-			sliderText.innerHTML = "Min: " + tremoloMin.toFixed(2)
+			var v = parseFloat(this.value) / 100;
+			tremoloMin = Math.min(tremoloMax, v);
+			sliderText.innerHTML = "Min: " + tremoloMin.toFixed(2);
 		}
 	}
-	setupTremoloMaxSlider()
+	setupTremoloMaxSlider();
 	function setupTremoloMaxSlider() {
 		var slider = $("tremoloMaxRange");
-		slider.value = tremoloMax * 100
+		slider.value = tremoloMax * 100;
 		var sliderText = $("tremoloMax");
-		sliderText.innerHTML = "Max: " + tremoloMax.toFixed(2)
+		sliderText.innerHTML = "Max: " + tremoloMax.toFixed(2);
 		slider.oninput = function() {
-			var v = parseFloat(this.value) / 100
-			tremoloMax = Math.max(tremoloMin, v)
-			sliderText.innerHTML = "Max: " + tremoloMax.toFixed(2)
+			var v = parseFloat(this.value) / 100;
+			tremoloMax = Math.max(tremoloMin, v);
+			sliderText.innerHTML = "Max: " + tremoloMax.toFixed(2);
 		}
 	}
 
-	setupHarmonicsTable()
+	setupHarmonicsTable();
 	function setupHarmonicsTable() {
 		var i;
 
 		var table = $("harmonics_table");
-		var innerTableHtml = ""
+		var innerTableHtml = "";
 		for (i = 0; i < harmonicsVolume.length; i++) {
 			var value = harmonicsVolume[i];
-			var percentValue = value*100.0
+			var percentValue = value*100.0;
 			innerTableHtml += 	`<tr>
 									<td><label id='harmonic_text_`+i+`' for='harmonic_`+i+`'>H`+i+`</label></td>
 									<td><input type='range' min='0' max='100' value='`+percentValue+`' step='0.001' class='slider' id='harmonic_`+i+`'/></td>
 								</tr>`;
 		}
-		table.innerHTML = innerTableHtml
+		table.innerHTML = innerTableHtml;
 
 
 		for (i = 0; i < harmonicsVolume.length; i++) {
-			setupHarmonicSlider(i)
+			setupHarmonicSlider(i);
 		}
 
 		function setupHarmonicSlider(i) {
 			var value = harmonicsVolume[i];
-			var percentValue = value*100.0
+			var percentValue = value*100.0;
 			var slider = $("harmonic_"+i);
 			var sliderText = $("harmonic_text_"+i);
-			sliderText.innerHTML = "H" + i + ": " + percentValue.toFixed(3)
+			sliderText.innerHTML = "H" + i + ": " + percentValue.toFixed(3);
 			slider.oninput = function() {
-				var v = parseFloat(this.value) 
-				sliderText.innerHTML = "H" + i + ": " + v.toFixed(3)
-				var volume = v / 100
+				var v = parseFloat(this.value);
+				sliderText.innerHTML = "H" + i + ": " + v.toFixed(3);
+				var volume = v / 100;
 
-				harmonicsVolume[i] = volume
+				harmonicsVolume[i] = volume;
 
 				for(const [frequency, note] of notes) {
-					note.setHarmonicVolume(i, volume)
+					note.setHarmonicVolume(i, volume);
 				}
 			}
 		}
@@ -175,23 +173,23 @@ function init() {
 	}	
 }
 
-function tapC(elem, octave, harmonic = false) { startNote(elem, 32.70320 * Math.pow(2, octave - 1), harmonic) }
-function tapCsharp(elem, octave, harmonic = false) { startNote(elem, 34.64783 * Math.pow(2, octave - 1), harmonic) }
-function tapD(elem, octave, harmonic = false) { startNote(elem, 36.70810 * Math.pow(2, octave - 1), harmonic) }
-function tapDsharp(elem, octave, harmonic = false) { startNote(elem, 38.89087 * Math.pow(2, octave - 1), harmonic) }
-function tapE(elem, octave, harmonic = false) { startNote(elem, 41.20344 * Math.pow(2, octave - 1), harmonic) }
-function tapF(elem, octave, harmonic = false) { startNote(elem, 43.65353 * Math.pow(2, octave - 1), harmonic) }
-function tapFsharp(elem, octave, harmonic = false) { startNote(elem, 46.24930 * Math.pow(2, octave - 1), harmonic) }
-function tapG(elem, octave, harmonic = false) { startNote(elem, 48.99943 * Math.pow(2, octave - 1), harmonic) }
-function tapGsharp(elem, octave, harmonic = false) { startNote(elem, 51.91309 * Math.pow(2, octave - 1), harmonic) }
-function tapA(elem, octave, harmonic = false) { startNote(elem, 55.00000 * Math.pow(2, octave - 1), harmonic) }
-function tapAsharp(elem, octave, harmonic = false) { startNote(elem, 58.27047 * Math.pow(2, octave - 1), harmonic) }
-function tapB(elem, octave, harmonic = false) { startNote(elem, 61.73541 * Math.pow(2, octave - 1), harmonic) }
+tapC = function(elem, octave, harmonic = false) { startNote(elem, 32.70320 * Math.pow(2, octave - 1), harmonic); }
+tapCsharp = function(elem, octave, harmonic = false) { startNote(elem, 34.64783 * Math.pow(2, octave - 1), harmonic); }
+tapD = function(elem, octave, harmonic = false) { startNote(elem, 36.70810 * Math.pow(2, octave - 1), harmonic); }
+tapDsharp = function(elem, octave, harmonic = false) { startNote(elem, 38.89087 * Math.pow(2, octave - 1), harmonic); }
+tapE = function(elem, octave, harmonic = false) { startNote(elem, 41.20344 * Math.pow(2, octave - 1), harmonic); }
+tapF = function(elem, octave, harmonic = false) { startNote(elem, 43.65353 * Math.pow(2, octave - 1), harmonic); }
+tapFsharp = function(elem, octave, harmonic = false) { startNote(elem, 46.24930 * Math.pow(2, octave - 1), harmonic); }
+tapG = function(elem, octave, harmonic = false) { startNote(elem, 48.99943 * Math.pow(2, octave - 1), harmonic); }
+tapGsharp = function(elem, octave, harmonic = false) { startNote(elem, 51.91309 * Math.pow(2, octave - 1), harmonic); }
+tapA = function(elem, octave, harmonic = false) { startNote(elem, 55.00000 * Math.pow(2, octave - 1), harmonic); }
+tapAsharp = function(elem, octave, harmonic = false) { startNote(elem, 58.27047 * Math.pow(2, octave - 1), harmonic); }
+tapB = function(elem, octave, harmonic = false) { startNote(elem, 61.73541 * Math.pow(2, octave - 1), harmonic); }
 
 function startNote(elem, frequency, harmonic) {
 	
 	if (!harmonic) { // hack to play both sine and harmonic
-		frequency = frequency + 0.0001
+		frequency = frequency + 0.0001;
 	}
 
 	if (!setup) {
@@ -229,68 +227,64 @@ function startNote(elem, frequency, harmonic) {
 		clearTimeout(timeout);
 		timeout = setTimeout(fluctuateVolume, 0);
 
-		setup = true
-		
+		setup = true;
 	}
 
 	if (notes.has(frequency)) {
 		var note = notes.get(frequency);
 		if(note.playing){
-			note.stop()
+			note.stop();
 			removeClass(elem, "selected");
 			notes.delete(frequency);
 			if(notes.size == 0){
-				playing = false	
-				stopDurationTimer()
+				playing = false	;
+				stopDurationTimer();
 			}
-			return
+			return;
 		}else {
-			notes.delete(frequency)
+			notes.delete(frequency);
 		}				
 	}
 
-	lastNote = new Note(ctx, frequency, harmonic ? harmonicsVolume : [1])
-
-
+	lastNote = new Note(ctx, frequency, harmonic ? harmonicsVolume : [1]);
 
 	analyserNode.fftSize = 2048;
-		bufferLength = analyserNode.frequencyBinCount;
-		dataArray = new Uint8Array(bufferLength);
-		analyserNode.getByteTimeDomainData(dataArray);
+	bufferLength = analyserNode.frequencyBinCount;
+	dataArray = new Uint8Array(bufferLength);
+	analyserNode.getByteTimeDomainData(dataArray);
 
 	if(notes.size == 0){
-		playing = true	
-		startDurationTimer()
+		playing = true;
+		startDurationTimer();
 	}
 
 	notes.set(frequency, lastNote);
-	lastNote.play()
+	lastNote.play();
 	
-	addClass(elem, "selected")
+	addClass(elem, "selected");
 }
-
 
 
 var durationStartTime;
 var durationTimeout;
 function startDurationTimer(){
 	if (duration == -1) return;
-	durationStartTime = Date.now()
-	durationTimerWork()
+	durationStartTime = Date.now();
+	durationTimerWork();
 }
 function durationTimerWork(){
 
-	var timeExpired = Date.now() - durationStartTime
+	var timeExpired = Date.now() - durationStartTime;
 
 	var buttonText = $("stop_delay");
 	var durationInMS = duration*60*1000;
-	var timeRemaining = durationInMS - timeExpired
+	var timeRemaining = durationInMS - timeExpired;
 
 
-	var humanReadable = human_readable_duration(timeRemaining)
-	buttonText.innerHTML = humanReadable == "" ? "Fade Out" : "Fade Out (" + human_readable_duration(timeRemaining) + ")"
+	var humanReadable = human_readable_duration(timeRemaining);
+	buttonText.innerHTML = humanReadable == "" ? "Fade Out" : "Fade Out (" + human_readable_duration(timeRemaining) + ")";
 	if(timeExpired > durationInMS){
-		stopDurationTimer()
+		stopDurationTimer();
 	}else{
 		durationTimeout = setTimeout(durationTimerWork, 200);
 	}
@@ -299,41 +293,41 @@ function durationTimerWork(){
 		if(duration_in_seconds < 60) {
 			return formattedSeconds(duration_in_seconds);
 		} else if(duration_in_seconds < 60*60){
-			var mins = parseInt(duration_in_seconds/60)
-			var secs = duration_in_seconds - (mins*60)
-			return mins + " min" +  (secs==0?"":" ") + formattedSeconds(secs)
+			var mins = parseInt(duration_in_seconds/60);
+			var secs = duration_in_seconds - (mins*60);
+			return mins + " min" +  (secs==0?"":" ") + formattedSeconds(secs);
 		} else if (duration_in_seconds >= 60*60) {
-			var hours = parseInt(duration_in_seconds/60/60)
-			return hours + " hour"
+			var hours = parseInt(duration_in_seconds/60/60);
+			return hours + " hour";
 		} else {
 			//LogE("not handled human readable duration")
 			return ""
 		}
 
 		function formattedSeconds(seconds){
-			seconds = parseInt(seconds)
-			if(seconds == 0) return ""
-			else if (seconds < 10) return "0"+seconds +" s"
-			else return seconds+" s"
+			seconds = parseInt(seconds);
+			if(seconds == 0) return "";
+			else if (seconds < 10) return "0"+seconds +" s";
+			else return seconds+" s";
 		}
 	}
 }
 function stopDurationTimer() {
 	
 	var buttonText = $("stop_delay");
-	buttonText.innerHTML = "Fade Out"
+	buttonText.innerHTML = "Fade Out";
 
 	clearTimeout(durationTimeout);
-	fadeStop()
+	fadeStop();
 }
 
 
-var timeout
-var fluctateDown = true
+var timeout;
+var fluctateDown = true;
 function fluctuateVolume() {
 
 	function BPMtoMilliSeconds(BPM) { return 1000 / (BPM / 60); }
-	var timeMS = BPMtoMilliSeconds(bpm) 
+	var timeMS = BPMtoMilliSeconds(bpm);
 
 	if (playing) {
 
@@ -342,182 +336,89 @@ function fluctuateVolume() {
 		} else {
 			setVolume(tremoloMax, timeMS / 1000);
     		clearTimeout(visualizationTimeout);
-    		visualizationfrequencyInHz = 1000 / timeMS / 2
+    		visualizationfrequencyInHz = 1000 / timeMS / 2;
     		visualizationTimeout = setTimeout(visualizationUpdate, 0);
 		}
-		fluctateDown = !fluctateDown
+		fluctateDown = !fluctateDown;
 	}
 	timeout = setTimeout(fluctuateVolume, timeMS);
 
 
 	function setVolume(volume, rampTime = 0) {
 
-		var time = ctx.currentTime
+		var time = ctx.currentTime;
 		tremoloNode.gain.setValueAtTime(tremoloVolume, time);
-		tremoloNode.gain.exponentialRampToValueAtTime(Math.max(0.00001, volume), time + rampTime)
-		tremoloVolume = volume
+		tremoloNode.gain.exponentialRampToValueAtTime(Math.max(0.00001, volume), time + rampTime);
+		tremoloVolume = volume;
 	}
 }
 
-var startTime = Date.now()
+var startTime = Date.now();
 var visualizationSlider = $("tremoloVisualizationRange");
-var visualizationTimeout
-var visualizationfrequencyInHz = 0.5
+var visualizationTimeout;
+var visualizationfrequencyInHz = 0.5;
 function visualizationUpdate() {
 	
-	if (!playing || notes.length == 0) return
-
-	//500 = 2Hz
-	//1000 = 1
-	//2000 = 0.5
+	if (!playing || notes.length == 0) return;
 
 	var timeDiff = (Date.now() - startTime) / 1000;
 
-	var min = tremoloMin * 100
-	var max = tremoloMax * 100
+	var min = tremoloMin * 100;
+	var max = tremoloMax * 100;
 
-	var frequencyInHz = visualizationfrequencyInHz //1000 / cycleDuration //0.5
+	var frequencyInHz = visualizationfrequencyInHz; // 1000 / cycleDuration //0.5
 
-	//log(cycleDuration + ' = ' + frequencyInHz)
-	var amplitude =  (max - min) / 2
-	var phase = 0
+	var amplitude =  (max - min) / 2;
+	var phase = 0;
 	var PI = Math.PI;
 
 	var sliderValue = (amplitude * Math.sin(2 * PI * frequencyInHz * timeDiff + phase)) + amplitude + min;
-	visualizationSlider.value = sliderValue
+	visualizationSlider.value = sliderValue;
 
 	visualizationTimeout = setTimeout(visualizationUpdate, 40);
 }
 
-function kofi(){
+kofi = function(){
 	window.open("https://ko-fi.com/jasonfleischer", "_blank");
 }
 
-function info(){
-	information.showAlert()
+info = function(){
+	information.showAlert();
 }
 function dismissInfo(){
-	information.dismissAlert()
+	information.dismissAlert();
 }
-
-/*function doSoundClip() {
-	var context = new AudioContext() || new webkitAudioContext(),
-	request = new XMLHttpRequest();
-
-    request.open("GET", "audio/C.wav", true);
-    request.responseType = "arraybuffer";
-    request.onload = function(){
-        context.decodeAudioData(request.response, onDecoded);
-    }
-    
-    function onDecoded(buffer){
-        var bufferSource = context.createBufferSource();
-        bufferSource.buffer = buffer;
-
-
-        analyserNode = context.createAnalyser();
-		analyserNode.fftSize = 2048;
-		bufferLength = analyserNode.frequencyBinCount;
-		dataArray = new Uint8Array(bufferLength);
-		analyserNode.getByteTimeDomainData(dataArray);
-
-		var masterGainNode = context.createGain();
-		masterGainNode.gain.value = masterVolume;
-
-		bufferSource.connect(masterGainNode)
-        masterGainNode.connect(context.destination);
-
-        bufferSource.connect(analyserNode);
-        bufferSource.start();
-
-        playing = true;
-        draw();
-    }
-    
-    request.send();
-}*/
-
-var waveTablePlaying = false
-var osc;
-/*function doWaveTable() {
-
-	
-	if (waveTablePlaying) {
-		osc.stop();
-		playing = false
-	}else {
-		log(harmonicsVolume)
-		let size = harmonicsVolume.length + 1
-		var real = new Float32Array(size);
-		var imag = new Float32Array(size);
-		var ac = new AudioContext();
-		osc = ac.createOscillator();
-		osc.frequency.value = 220;
-		imag[0] = 1; // for fundamental
-		real[0] = 0; // for fundamental
-		var i;
-		for (i = 1; i < harmonicsVolume.length + 1; i++) {
-			imag[i] = harmonicsVolume[i-1];
-			real[i] = 0;
-		}
-
-		var wave = ac.createPeriodicWave(real, imag);
-
-		osc.setPeriodicWave(wave);
-
-
-		analyserNode = ac.createAnalyser();
-		analyserNode.fftSize = 2048;
-		bufferLength = analyserNode.frequencyBinCount;
-		dataArray = new Uint8Array(bufferLength);
-		analyserNode.getByteTimeDomainData(dataArray);
-
-
-		var masterGainNode = ac.createGain();
-		masterGainNode.gain.value = masterVolume;
-
-		osc.connect(masterGainNode);
-		masterGainNode.connect(analyserNode);
-		masterGainNode.connect(ac.destination);
-
-		osc.start();
-		playing = true
-
-		draw()
-	}
-	waveTablePlaying = !waveTablePlaying;
-}*/
 
 function setOscillatorType(type){
 	for(const [frequency, note] of notes) {
-		note.setOscillatorType(type)
+		note.setOscillatorType(type);
 	}
 }
 
 
-function harmonicsPreset0() {
-		setHarmonicVolume([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-		updatePresetButtonsUI(0);
+harmonicsPreset0 = function(){
+	setHarmonicVolume([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+	updatePresetButtonsUI(0);
 }
-function harmonicsPreset1() {
-		var volumeAry = [];
-		volumeAry[0] = 1
-		for (i = 1; i < harmonicsVolume.length; i++) {
-			volumeAry[i] = volumeAry[i-1]/2
-		}
-		setHarmonicVolume(volumeAry)
-		updatePresetButtonsUI(1);
+harmonicsPreset1 = function() {
+	var volumeAry = [];
+	volumeAry[0] = 1;
+	for (i = 1; i < harmonicsVolume.length; i++) {
+		volumeAry[i] = volumeAry[i-1]/2;
+	}
+	setHarmonicVolume(volumeAry);
+	updatePresetButtonsUI(1);
 }
-function harmonicsPreset2() {
+harmonicsPreset2 = function() {
 	var volumeAry = [];
 	var numberOfHarmonicsToSet = 7;
 	for (i = 0; i < harmonicsVolume.length; i++) {
 		volumeAry[i] =  Math.max(0, 1 - (i/(numberOfHarmonicsToSet-1)));
 	}
-	setHarmonicVolume(volumeAry)
+	setHarmonicVolume(volumeAry);
 	updatePresetButtonsUI(2);
 }
-function harmonicsPreset3() {
+harmonicsPreset3 = function() {
 	var volumeAry = [];
 	var numberOfHarmonicsToSet = 5;
 	for (i = 0; i < harmonicsVolume.length; i++) {
@@ -527,41 +428,40 @@ function harmonicsPreset3() {
 			volumeAry[i] = 0;
 		}
 	}
-	setHarmonicVolume(volumeAry)
+	setHarmonicVolume(volumeAry);
 	updatePresetButtonsUI(3);
 }
-function harmonicsPreset4() {
-	var volumeAry = []
+harmonicsPreset4 = function() {
+	var volumeAry = [];
 	var numberOfHarmonicsToSet = 5;
 	for (i = 0; i < harmonicsVolume.length; i++) {
-			volumeAry[i] =  (100/(2+i-1))/100
+		volumeAry[i] =  (100/(2+i-1))/100;
 	}
-	setHarmonicVolume(volumeAry)
+	setHarmonicVolume(volumeAry);
 	updatePresetButtonsUI(4);
 }
-function harmonicsPreset5() {
+harmonicsPreset5 = function() {
 	setHarmonicVolume([1, 0.286699025, 0.63513, 0.042909002, 0.2522, 0.30904, 0.25045, 0.2004, 0, 0.14836, 
             0.17415, 0.07979, 0.05383, 0.07332, 0.07206, 0.08451, 0.022270261, 0.013072562, 
             0.008585879, 0.005771505, 0.004343925, 0.002141371, 0.005343231, 0.000530244, 
             0.004711017, 0.009014153]);
 	updatePresetButtonsUI(5);
 }
-function setHarmonicVolume(volumeAry) {
+setHarmonicVolume = function(volumeAry) {
 	for (i = 0; i < volumeAry.length; i++) {
 			
-			harmonicsVolume[i] = volumeAry[i]
-
-			for(const [frequency, note] of notes) {
-				note.setHarmonicVolume(i, volumeAry[i])
-			}
-			$("harmonic_text_" + i).innerHTML = "H"+i+": "+(volumeAry[i]*100).toFixed(3)
-			$("harmonic_" + i).value = volumeAry[i]*100
+		harmonicsVolume[i] = volumeAry[i];
+		for(const [frequency, note] of notes) {
+			note.setHarmonicVolume(i, volumeAry[i]);
 		}
+		$("harmonic_text_" + i).innerHTML = "H"+i+": "+(volumeAry[i]*100).toFixed(3);
+		$("harmonic_" + i).value = volumeAry[i]*100;
+	}
 }
-function updatePresetButtonsUI(index) {
+updatePresetButtonsUI = function(index) {
 	var i;
 	for (i = 0; i < 6; i++) {
-		let elem = $('P'+i)
+		let elem = $('P'+i);
 		if(i == index){
 			addClass(elem, 'selected');
 		}else{
@@ -570,24 +470,24 @@ function updatePresetButtonsUI(index) {
 	}
 }
 
-function fadeStop() {
-	stop(fade_in_seconds)
+fadeStop = function() {
+	stop(fade_in_seconds);
 }
 
-function stop(delayTime=0.5) {
+stop = function(delayTime=0.5) {
 
-	if (!playing) return
+	if (!playing) return;
 
 	playing = false;
-	stopDurationTimer()
+	stopDurationTimer();
 	
 
 	for(const [frequency, note] of notes) {
-		note.stop(delayTime)
+		note.stop(delayTime);
 	}
-	notes.clear()
+	notes.clear();
 
-	clearbuttonUI()
+	clearbuttonUI();
 	function clearbuttonUI() {
 		var buttons = document.getElementsByTagName('button');
 		for (let i = 0; i < buttons.length; i++) {
@@ -597,30 +497,28 @@ function stop(delayTime=0.5) {
 	}			
 }
 
-
-function log(msg) { console.log(msg) }
+function log(msg) { console.log(msg); }
 
 function hasClass(ele,cls) {
-  return !!ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
+	return !!ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
 }
 function addClass(ele,cls) {
-  if (!hasClass(ele,cls)) ele.className += " "+cls;
+	if (!hasClass(ele,cls)) ele.className += " "+cls;
 }
 function removeClass(ele,cls) {
-  if (hasClass(ele,cls)) {
-    var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
-    ele.className=ele.className.replace(reg,' ');
-  }
+	if (hasClass(ele,cls)) {
+    	var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+    	ele.className=ele.className.replace(reg,' ');
+  	}
 }
 
 var canvas = $("oscilloscope");
 var canvasCtx = canvas.getContext("2d");
-var drawing = true
+var drawing = true;
 
 function draw() {
 
 	requestAnimationFrame(draw);
-
 
 	if(drawing) {
 
@@ -656,7 +554,7 @@ function draw() {
 	}
 }
 
-function toggleDrawing(elem){
+toggleDrawing = function(elem){
 	drawing = !drawing
 	if (drawing) {
 		removeClass(elem, "selected");
