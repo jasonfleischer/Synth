@@ -1,6 +1,4 @@
-const log = require("@jasonfleischer/log")
-
-log.e("error log message");
+const log = require("@jasonfleischer/log");
 
 var o;
 var g;
