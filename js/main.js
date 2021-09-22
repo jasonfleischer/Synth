@@ -1,3 +1,7 @@
+const log = require("@jasonfleischer/log")
+
+log.e("error log message");
+
 var o;
 var g;
 var ctx;
@@ -300,7 +304,7 @@ function durationTimerWork(){
 			var hours = parseInt(duration_in_seconds/60/60);
 			return hours + " hour";
 		} else {
-			//LogE("not handled human readable duration")
+			log.e("not handled human readable duration")
 			return ""
 		}
 
@@ -496,8 +500,6 @@ stop = function(delayTime=0.5) {
 		}
 	}			
 }
-
-function log(msg) { console.log(msg); }
 
 function hasClass(ele,cls) {
 	return !!ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));

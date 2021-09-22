@@ -21,5 +21,7 @@
     "url": "https://github.com/jasonfleischer/synth#readme"
   },
   "homepage": "https://jasonfleischer.github.io/synth/",
-  "dependencies": {}
+  "dependencies": {
+    "@jasonfleischer/log": "^1.0.8"
+  }
 }
