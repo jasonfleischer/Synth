@@ -14,10 +14,10 @@ const pianoView = pianoKit({
 			if(isOn) {
 
 				startNote(note.frequency, true);
-				//pianoView.drawNote(note);
+				pianoView.drawNote(note);
 			} else {
 				startNote(note.frequency, true);
-				//pianoView.clearNote(note);
+				pianoView.clearNote(note);
 			}
 		},
 		hover: true
