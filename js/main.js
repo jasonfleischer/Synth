@@ -13,10 +13,10 @@ const pianoView = pianoKit({
 		onClick: function(note, isOn) {
 			if(isOn) {
 
-				startNote(elem, note.frequency, true);
+				startNote(note.frequency, true);
 				//pianoView.drawNote(note);
 			} else {
-				startNote(elem, note.frequency, true);
+				startNote(note.frequency, true);
 				//pianoView.clearNote(note);
 			}
 		},
