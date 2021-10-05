@@ -12,9 +12,12 @@ const pianoView = pianoKit({
 		width: 325,
 		onClick: function(note, isOn) {
 			if(isOn) {
-				pianoView.drawNote(note);
+
+				startNote(elem, note.frequency, true);
+				//pianoView.drawNote(note);
 			} else {
-				pianoView.clearNote(note);
+				startNote(elem, note.frequency, true);
+				//pianoView.clearNote(note);
 			}
 		},
 		hover: true
