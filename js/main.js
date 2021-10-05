@@ -3,6 +3,35 @@ const pianoKit = require("@jasonfleischer/piano");
 const musicKit = require("@jasonfleischer/music-model-kit");
 musicKit.init();
 
+const pianoView = pianoKit({
+		id: 'piano',
+		range: {
+			min: 60, // midi value = C4 = middle C
+			max: 72  // midi value = C5
+		},
+		width: 325,
+		onClick: function(note, isOn) {
+			if(isOn) {
+				pianoView.drawNote(note);
+			} else {
+				pianoView.clearNote(note);
+			}
+		},
+		hover: true
+	});
+
+
+	// add a midi listener
+	new musicKit.MidiListener(
+		function (midiValue, channel, velocity) { // note on
+			let note = musicKit.all_notes[midiValue];
+			pianoView.drawNote(note);
+		},
+		function (midiValue, channel, velocity) { // note off
+			let note = musicKit.all_notes[midiValue];
+			pianoView.clearNote(note);
+		});
+
 var o;
 var g;
 var ctx;
@@ -41,34 +70,7 @@ init = function() {
 
 
 
-	const pianoView = pianoKit({
-	id: 'piano',
-	range: {
-		min: 60, // midi value = C4 = middle C
-		max: 72  // midi value = C5
-	},
-	width: 325,
-	onClick: function(note, isOn) {
-		if(isOn) {
-			pianoView.drawNote(note);
-		} else {
-			pianoView.clearNote(note);
-		}
-	},
-	hover: true
-});
-
-
-// add a midi listener
-new musicKit.MidiListener(
-	function (midiValue, channel, velocity) { // note on
-		let note = musicKit.all_notes[midiValue];
-		pianoView.drawNote(note);
-	},
-	function (midiValue, channel, velocity) { // note off
-		let note = musicKit.all_notes[midiValue];
-		pianoView.clearNote(note);
-	});
+	
 
 
 	storage.load();
