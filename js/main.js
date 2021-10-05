@@ -12,9 +12,9 @@ const pianoView = pianoKit({
 		width: 340,
 		onClick: function(note, isOn) {
 			if(isOn) {
-
+				let color = note.note_name.is_sharp_or_flat ? "#eee": "#077bff";
 				startNote(note.frequency, true);
-				pianoView.drawNoteWithColor(note, "#077bff");
+				pianoView.drawNoteWithColor(note, color);
 			} else {
 				startNote(note.frequency, true);
 				pianoView.clearNote(note);
