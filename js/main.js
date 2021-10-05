@@ -6,8 +6,8 @@ musicKit.init();
 const pianoView = pianoKit({
 	id: 'piano',
 	range: {
-		min: 60, // midi value = C4 = middle C
-		max: 72  // midi value = C5
+		min: 58, 
+		max: 60  
 	},
 	width: 340,
 	onClick: function(note, isOn) {
