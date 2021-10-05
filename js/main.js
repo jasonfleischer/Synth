@@ -14,7 +14,7 @@ const pianoView = pianoKit({
 			if(isOn) {
 
 				startNote(note.frequency, true);
-				pianoView.drawNoteWithColor(note, "#444");
+				pianoView.drawNoteWithColor(note, "#077bff");
 			} else {
 				startNote(note.frequency, true);
 				pianoView.clearNote(note);
@@ -533,14 +533,16 @@ stop = function(delayTime=0.5) {
 	}
 	notes.clear();
 
-	clearbuttonUI();
+	pianoView.clear();
+
+	/*clearbuttonUI();
 	function clearbuttonUI() {
 		var buttons = document.getElementsByTagName('button');
 		for (let i = 0; i < buttons.length; i++) {
 		    let button = buttons[i];
 		    removeClass(button, "selected");
 		}
-	}			
+	}*/			
 }
 
 function hasClass(ele,cls) {
