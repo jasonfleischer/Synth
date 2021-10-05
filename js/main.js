@@ -41,7 +41,7 @@ init = function() {
 
 
 
-	const pianoView = pianoKit.build({
+	const pianoView = pianoKit({
 	id: 'piano',
 	range: {
 		min: 60, // midi value = C4 = middle C
