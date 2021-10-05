@@ -14,7 +14,7 @@ const pianoView = pianoKit({
 			if(isOn) {
 
 				startNote(note.frequency, true);
-				pianoView.drawNoteWithColor(note, "#f00");
+				pianoView.drawNoteWithColor(note, "#444");
 			} else {
 				startNote(note.frequency, true);
 				pianoView.clearNote(note);
