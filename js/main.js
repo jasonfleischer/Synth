@@ -1,4 +1,7 @@
 const log = require("@jasonfleischer/log");
+const pianoKit = require("@jasonfleischer/piano");
+const musicKit = require("@jasonfleischer/music-model-kit");
+musicKit.init();
 
 var o;
 var g;
@@ -34,6 +37,39 @@ var harmonicsVolume = [1, 0.286699025, 0.63513, 0.042909002, 0.2522, 0.30904, 0.
 
 
 init = function() {
+
+
+
+
+	const pianoView = pianoKit.build({
+	id: 'piano',
+	range: {
+		min: 60, // midi value = C4 = middle C
+		max: 72  // midi value = C5
+	},
+	width: 325,
+	onClick: function(note, isOn) {
+		if(isOn) {
+			pianoView.drawNote(note);
+		} else {
+			pianoView.clearNote(note);
+		}
+	},
+	hover: true
+});
+
+
+// add a midi listener
+new musicKit.MidiListener(
+	function (midiValue, channel, velocity) { // note on
+		let note = musicKit.all_notes[midiValue];
+		pianoView.drawNote(note);
+	},
+	function (midiValue, channel, velocity) { // note off
+		let note = musicKit.all_notes[midiValue];
+		pianoView.clearNote(note);
+	});
+
 
 	storage.load();
 	alert.init();
