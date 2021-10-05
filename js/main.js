@@ -9,7 +9,7 @@ const pianoView = pianoKit({
 			min: 60, // midi value = C4 = middle C
 			max: 72  // midi value = C5
 		},
-		width: 325,
+		width: 340,
 		onClick: function(note, isOn) {
 			if(isOn) {
 
