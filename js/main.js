@@ -4,39 +4,35 @@ const musicKit = require("@jasonfleischer/music-model-kit");
 musicKit.init();
 
 const pianoView = pianoKit({
-		id: 'piano',
-		range: {
-			min: 60, // midi value = C4 = middle C
-			max: 72  // midi value = C5
-		},
-		width: 340,
-		onClick: function(note, isOn) {
-			if(isOn) {
-				let color = note.note_name.is_sharp_or_flat ? "#777": "#aaa";
-				startNote(note.frequency, true);
-				pianoView.drawNoteWithColor(note, color);
-			} else {
-				startNote(note.frequency, true);
-				pianoView.clearNote(note);
-			}
-		},
-		hover: true
-	});
-
-let midiValue = 45; // A2
-let note = musicKit.all_notes[midiValue];
-pianoView.drawNote(note);
-
-	// add a midi listener
-	new musicKit.MidiListener(
-		function (midiValue, channel, velocity) { // note on
-			let note = musicKit.all_notes[midiValue];
-			pianoView.drawNote(note);
-		},
-		function (midiValue, channel, velocity) { // note off
-			let note = musicKit.all_notes[midiValue];
+	id: 'piano',
+	range: {
+		min: 60, // midi value = C4 = middle C
+		max: 72  // midi value = C5
+	},
+	width: 340,
+	onClick: function(note, isOn) {
+		if(isOn) {
+			let color = note.note_name.is_sharp_or_flat ? "#777": "#aaa";
+			startNote(note.frequency, true);
+			pianoView.drawNoteWithColor(note, color);
+		} else {
+			startNote(note.frequency, true);
 			pianoView.clearNote(note);
-		});
+		}
+	},
+	hover: true
+});
+
+// add a midi listener
+new musicKit.MidiListener(
+	function (midiValue, channel, velocity) { // note on
+		let note = musicKit.all_notes[midiValue];
+		pianoView.drawNote(note);
+	},
+	function (midiValue, channel, velocity) { // note off
+		let note = musicKit.all_notes[midiValue];
+		pianoView.clearNote(note);
+	});
 
 var o;
 var g;
@@ -72,12 +68,6 @@ var harmonicsVolume = [1, 0.286699025, 0.63513, 0.042909002, 0.2522, 0.30904, 0.
 
 
 init = function() {
-
-
-
-
-	
-
 
 	storage.load();
 	alert.init();
@@ -219,19 +209,6 @@ init = function() {
 	}	
 }
 
-tapC = function(elem, octave, harmonic = false) { startNote(elem, 32.70320 * Math.pow(2, octave - 1), harmonic); }
-tapCsharp = function(elem, octave, harmonic = false) { startNote(elem, 34.64783 * Math.pow(2, octave - 1), harmonic); }
-tapD = function(elem, octave, harmonic = false) { startNote(elem, 36.70810 * Math.pow(2, octave - 1), harmonic); }
-tapDsharp = function(elem, octave, harmonic = false) { startNote(elem, 38.89087 * Math.pow(2, octave - 1), harmonic); }
-tapE = function(elem, octave, harmonic = false) { startNote(elem, 41.20344 * Math.pow(2, octave - 1), harmonic); }
-tapF = function(elem, octave, harmonic = false) { startNote(elem, 43.65353 * Math.pow(2, octave - 1), harmonic); }
-tapFsharp = function(elem, octave, harmonic = false) { startNote(elem, 46.24930 * Math.pow(2, octave - 1), harmonic); }
-tapG = function(elem, octave, harmonic = false) { startNote(elem, 48.99943 * Math.pow(2, octave - 1), harmonic); }
-tapGsharp = function(elem, octave, harmonic = false) { startNote(elem, 51.91309 * Math.pow(2, octave - 1), harmonic); }
-tapA = function(elem, octave, harmonic = false) { startNote(elem, 55.00000 * Math.pow(2, octave - 1), harmonic); }
-tapAsharp = function(elem, octave, harmonic = false) { startNote(elem, 58.27047 * Math.pow(2, octave - 1), harmonic); }
-tapB = function(elem, octave, harmonic = false) { startNote(elem, 61.73541 * Math.pow(2, octave - 1), harmonic); }
-
 function startNote(frequency, harmonic) {
 	
 	if (!harmonic) { // hack to play both sine and harmonic
@@ -280,7 +257,6 @@ function startNote(frequency, harmonic) {
 		var note = notes.get(frequency);
 		if(note.playing){
 			note.stop();
-			//removeClass(elem, "selected");
 			notes.delete(frequency);
 			if(notes.size == 0){
 				playing = false	;
@@ -306,10 +282,7 @@ function startNote(frequency, harmonic) {
 
 	notes.set(frequency, lastNote);
 	lastNote.play();
-	
-	//addClass(elem, "selected");
 }
-
 
 var durationStartTime;
 var durationTimeout;
@@ -533,16 +506,7 @@ stop = function(delayTime=0.5) {
 	}
 	notes.clear();
 
-	pianoView.clear();
-
-	/*clearbuttonUI();
-	function clearbuttonUI() {
-		var buttons = document.getElementsByTagName('button');
-		for (let i = 0; i < buttons.length; i++) {
-		    let button = buttons[i];
-		    removeClass(button, "selected");
-		}
-	}*/			
+	pianoView.clear();		
 }
 
 function hasClass(ele,cls) {
