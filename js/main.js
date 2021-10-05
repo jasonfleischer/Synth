@@ -20,6 +20,9 @@ const pianoView = pianoKit({
 		hover: true
 	});
 
+let midiValue = 45; // A2
+let note = musicKit.all_notes[midiValue];
+pianoView.drawNote(note);
 
 	// add a midi listener
 	new musicKit.MidiListener(
