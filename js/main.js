@@ -232,7 +232,7 @@ tapA = function(elem, octave, harmonic = false) { startNote(elem, 55.00000 * Mat
 tapAsharp = function(elem, octave, harmonic = false) { startNote(elem, 58.27047 * Math.pow(2, octave - 1), harmonic); }
 tapB = function(elem, octave, harmonic = false) { startNote(elem, 61.73541 * Math.pow(2, octave - 1), harmonic); }
 
-function startNote(elem, frequency, harmonic) {
+function startNote(frequency, harmonic) {
 	
 	if (!harmonic) { // hack to play both sine and harmonic
 		frequency = frequency + 0.0001;
@@ -280,7 +280,7 @@ function startNote(elem, frequency, harmonic) {
 		var note = notes.get(frequency);
 		if(note.playing){
 			note.stop();
-			removeClass(elem, "selected");
+			//removeClass(elem, "selected");
 			notes.delete(frequency);
 			if(notes.size == 0){
 				playing = false	;
@@ -307,7 +307,7 @@ function startNote(elem, frequency, harmonic) {
 	notes.set(frequency, lastNote);
 	lastNote.play();
 	
-	addClass(elem, "selected");
+	//addClass(elem, "selected");
 }
 
 
