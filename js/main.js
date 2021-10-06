@@ -6,7 +6,7 @@ musicKit.init();
 const pianoView = pianoKit({
 	id: 'piano',
 	range: {
-		min: 58, 
+		min: 48, 
 		max: 60  
 	},
 	width: 340,
