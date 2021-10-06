@@ -1,4 +1,4 @@
-/*Note = class Note {
+class Note {
 
 	constructor(audioContext, fundamentalFrequency, harmonicsVolumePercents) {
 		this.id = fundamentalFrequency;
@@ -41,4 +41,4 @@
 			this.oscillators[i].setOscillatorType(type); 
 		}
 	}
-}*/
+}
