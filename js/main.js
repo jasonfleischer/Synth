@@ -27,10 +27,12 @@ const pianoView = pianoKit({
 new musicKit.MidiListener(
 	function (midiValue, channel, velocity) { // note on
 		let color = note.note_name.is_sharp_or_flat ? "#777": "#aaa";
-			startNote(note.frequency, true);
-			pianoView.drawNoteWithColor(note, color);
+		let note = musicKit.all_notes[midiValue];
+		startNote(note.frequency, true);
+		pianoView.drawNoteWithColor(note, color);
 	},
 	function (midiValue, channel, velocity) { // note off
+		let note = musicKit.all_notes[midiValue];
 		startNote(note.frequency, true);
 		pianoView.clearNote(note);
 	});
