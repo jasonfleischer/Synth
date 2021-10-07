@@ -13,10 +13,10 @@ const pianoView = pianoKit({
 	onClick: function(note, isOn) {
 		if(isOn) {
 			let color = note.note_name.is_sharp_or_flat ? "#777": "#aaa";
-			startNote(note.frequency, true);
+			startNote(note.frequency);
 			pianoView.drawNoteWithColor(note, color);
 		} else {
-			startNote(note.frequency, true);
+			startNote(note.frequency);
 			pianoView.clearNote(note);
 		}
 	},
@@ -28,12 +28,12 @@ new musicKit.MidiListener(
 	function (midiValue, channel, velocity) { // note on
 		let note = musicKit.all_notes[midiValue];
 		let color = note.note_name.is_sharp_or_flat ? "#777": "#aaa";
-		startNote(note.frequency, true);
+		startNote(note.frequency);
 		pianoView.drawNoteWithColor(note, color);
 	},
 	function (midiValue, channel, velocity) { // note off
 		let note = musicKit.all_notes[midiValue];
-		startNote(note.frequency, true);
+		startNote(note.frequency);
 		pianoView.clearNote(note);
 	});
 
@@ -212,11 +212,7 @@ init = function() {
 	}	
 }
 
-function startNote(frequency, harmonic) {
-	
-	if (!harmonic) { // hack to play both sine and harmonic
-		frequency = frequency + 0.0001;
-	}
+function startNote(frequency) {
 
 	if (!setup) {
 
@@ -271,7 +267,7 @@ function startNote(frequency, harmonic) {
 		}				
 	}
 
-	lastNote = new Note(ctx, frequency, harmonic ? harmonicsVolume : [1]);
+	lastNote = new Note(ctx, frequency, harmonicsVolume);
 
 	analyserNode.fftSize = 2048;
 	bufferLength = analyserNode.frequencyBinCount;
