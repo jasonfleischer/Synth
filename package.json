@@ -22,7 +22,7 @@
   },
   "homepage": "https://jasonfleischer.github.io/synth/",
   "dependencies": {
-    "@jasonfleischer/log": "^1.0.8",
-    "@jasonfleischer/piano": "^1.0.4"
+    "@jasonfleischer/log": "^1.0.0",
+    "@jasonfleischer/piano": "^1.0.0"
   }
 }
