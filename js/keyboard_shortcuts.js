@@ -1,6 +1,11 @@
 
 function setup_keyboard_listeners() {
 
+	window.onkeydown = function(e) {
+		log.i(e.keyCode)
+    	return e.keyCode !== 32;
+	};
+
 	document.addEventListener('keydown', function(event){
 
 		log.i(event.code)
