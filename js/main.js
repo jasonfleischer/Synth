@@ -3,25 +3,26 @@ const pianoKit = require("@jasonfleischer/piano");
 const musicKit = require("@jasonfleischer/music-model-kit");
 musicKit.init();
 
-const pianoView = pianoKit({
-	id: 'piano',
-	range: {
-		min: 48, 
-		max: 60  
-	},
-	width: 340,
-	onClick: function(note, isOn) {
-		if(isOn) {
-			let color = note.note_name.is_sharp_or_flat ? "#777": "#aaa";
-			startNote(note.frequency);
-			pianoView.drawNoteWithColor(note, color);
-		} else {
-			startNote(note.frequency);
-			pianoView.clearNote(note);
-		}
-	},
-	hover: true
-});
+var pianoView = buildPianoView();
+
+function buildPianoView(range = { min: 48, max: 60 }, width = 340){
+	return pianoKit({
+		id: 'piano',
+		range: range,
+		width: width,
+		onClick: function(note, isOn) {
+			if(isOn) {
+				let color = note.note_name.is_sharp_or_flat ? "#777": "#aaa";
+				startNote(note.frequency);
+				pianoView.drawNoteWithColor(note, color);
+			} else {
+				startNote(note.frequency);
+				pianoView.clearNote(note);
+			}
+		},
+		hover: true
+	});
+}
 
 // add a midi listener
 new musicKit.MidiListener(
@@ -60,6 +61,7 @@ var dataArray;
 var masterVolume = storage.get_volume(0.3);
 
 var notes = new Map();
+var lastPlayedNotes = new Map();
 var lastNote;
 
 
@@ -74,6 +76,7 @@ init = function() {
 
 	storage.load();
 	alert.init();
+	window_resized_end();
 	updatePresetButtonsUI(5);
 	setup_keyboard_listeners();
 
@@ -489,6 +492,43 @@ updatePresetButtonsUI = function(index) {
 	}
 }
 
+playStopButtonClick = function(elem){
+	if(notes.size > 0) {
+		stop();
+	} else if(lastPlayedNotes.size > 0){
+		playStop();
+	}
+}
+
+
+playStop = function() {
+
+	if (playing) {
+		stop();
+	} else {
+
+		for(const [frequency, note] of lastPlayedNotes) {
+
+			function findNoteWithFrequency(frequency){
+				var i;
+				for(i=0; i< musicKit.all_notes.length; i++){
+					var note = musicKit.all_notes[i];
+					if(note.frequency == frequency){
+						return note;
+					}
+				}
+				log.e("note not found");
+			}
+			var foundNote = findNoteWithFrequency(frequency);
+
+			let color = foundNote.note_name.is_sharp_or_flat ? "#777": "#aaa";
+			startNote(frequency);
+			pianoView.drawNoteWithColor(foundNote, color);
+		}
+	}
+	
+}
+
 fadeStop = function() {
 	stop(fade_in_seconds);
 }
@@ -497,15 +537,15 @@ stop = function(delayTime=0.5) {
 
 	if (!playing) return;
 
+	lastPlayedNotes = new Map(notes);
+
 	playing = false;
 	stopDurationTimer();
 	
-
 	for(const [frequency, note] of notes) {
 		note.stop(delayTime);
 	}
 	notes.clear();
-
 	pianoView.clear();		
 }
 

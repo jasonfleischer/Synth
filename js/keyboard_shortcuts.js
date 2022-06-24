@@ -8,7 +8,7 @@ function setup_keyboard_listeners() {
 	document.addEventListener('keyup', function(event){
 		var code = event.code;
 		if (code === 'Space') {
-			stop();
+			playStop();
 		} else {
 			event.preventDefault();
 		}
