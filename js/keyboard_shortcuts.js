@@ -7,6 +7,8 @@ function setup_keyboard_listeners() {
 		var code = event.code;
 		if (code === 'Space') {
 			fadeStop();
+		} else {
+			event.preventDefault();
 		}
 	});
 
