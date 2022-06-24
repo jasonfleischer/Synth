@@ -16,7 +16,7 @@ function setup_keyboard_listeners() {
 			event.preventDefault();
 		}
 	});
-	/*document.addEventListener('keyup', function(event){
+	document.addEventListener('keyup', function(event){
 
 		log.i(event.code)
 		var code = event.code;
@@ -25,7 +25,7 @@ function setup_keyboard_listeners() {
 		} else {
 			event.preventDefault();
 		}
-	});*/
+	});
 
 	//$('stop').focus();
 }
