@@ -8,5 +8,5 @@ function setup_keyboard_listeners() {
 		if (code === 'Space') {
 			fadeStop();
 		}
-	}
+	});
 }
