@@ -6,17 +6,6 @@ function setup_keyboard_listeners() {
 		console.log("?? "+e.keyCode)
     	return e.keyCode !== 32 && e.key !== " ";
 	};
-
-	/*document.addEventListener('keydown', function(event){
-
-		log.i(event.code)
-		var code = event.code;
-		if (code === 'Space') {
-			fadeStop();
-		} else {
-			event.preventDefault();
-		}
-	});*/
 	document.addEventListener('keyup', function(event){
 
 		log.i(event.code)
@@ -27,6 +16,4 @@ function setup_keyboard_listeners() {
 			event.preventDefault();
 		}
 	});
-
-	//$('stop').focus();
 }
