@@ -9,4 +9,6 @@ function setup_keyboard_listeners() {
 			fadeStop();
 		}
 	});
+
+	$('stop').focus();
 }
