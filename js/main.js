@@ -75,6 +75,7 @@ init = function() {
 	storage.load();
 	alert.init();
 	updatePresetButtonsUI(5);
+	setup_keyboard_listeners();
 
 	var isSafariMobile = window.mobileAndTabletCheck() && isSafari;
 	if (isSafariMobile && !isFromHomeScreen()){
