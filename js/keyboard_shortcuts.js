@@ -2,7 +2,7 @@
 function setup_keyboard_listeners() {
 
 	window.onkeydown = function(e) {
-		log.i(e.keyCode)
+		console.log("?? "+e.keyCode)
     	return e.keyCode !== 32 && e.key !== " ";
 	};
 
