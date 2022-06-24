@@ -1,5 +1,6 @@
 
 function setup_keyboard_listeners() {
+	log.i("setup_keyboard_listeners")
 
 	window.onkeydown = function(e) {
 		console.log("?? "+e.keyCode)
