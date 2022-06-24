@@ -3,7 +3,7 @@ function setup_keyboard_listeners() {
 
 	window.onkeydown = function(e) {
 		log.i(e.keyCode)
-    	return e.keyCode !== 32;
+    	return ev.keyCode !== 32 && ev.key !== " ";
 	};
 
 	document.addEventListener('keydown', function(event){
