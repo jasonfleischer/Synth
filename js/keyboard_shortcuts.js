@@ -22,7 +22,7 @@ function setup_keyboard_listeners() {
 		log.i(event.code)
 		var code = event.code;
 		if (code === 'Space') {
-			fadeStop();
+			stop();
 		} else {
 			event.preventDefault();
 		}
