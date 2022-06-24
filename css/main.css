@@ -12,9 +12,9 @@ html, body {
     bottom: 0;
     min-width: 320px;
     font-size: 15px;
-    -webkit-text-size-adjust:none;
+    /*-webkit-text-size-adjust:none;
     min-height: -webkit-fill-available;
-    height: -webkit-fill-available;
+    height: -webkit-fill-available;*/
 }
 
 body {
