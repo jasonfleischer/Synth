@@ -68,3 +68,20 @@ storage.get = function(key, default_value) {
 	let result = localStorage.getItem(key);
 	return (result == undefined) ? default_value : result;
 };
+
+storage.ROOT_NOTE = "SYNTH_ROOT_NOTE";
+storage.get_root_note = function(default_value=60){
+	return storage.get(storage.ROOT_NOTE, default_value);
+};
+storage.set_root_note = function(value){
+	localStorage.setItem(storage.ROOT_NOTE, value);
+};
+
+storage.IS_JUST_INTONATION = "SYNTH_IS_JUST_INTONATION";
+storage.is_just_intonation = function(default_value = false){
+	var value = storage.get(storage.IS_JUST_INTONATION, default_value);
+	return Boolean(value === "true" || value === true);
+};
+storage.set_is_just_intonation = function(value){
+	localStorage.setItem(storage.IS_JUST_INTONATION, value);
+};

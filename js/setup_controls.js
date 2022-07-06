@@ -7,7 +7,7 @@ function setup_controls(){
 		$("kofi_button").onclick = function() { kofi(); };
 		$("info_button").onclick = function() { info(); };
 		$("stop_delay").onclick = function() { audio_controller.fadeStop(); }
-		$("play_stop").onclick = function(){ audio_controller.playStopClick(); }
+		$("play_stop").onclick = function(){ audio_controller.stop(); }
 
 		setupPresetOnClicks();
 		function setupPresetOnClicks(){
@@ -72,7 +72,6 @@ function setup_controls(){
 			setHarmonicVolume = function(volumeAry) {
 				for (i = 0; i < volumeAry.length; i++) {
 					var volume = volumeAry[i];
-					//harmonicsVolume[i] = volume;
 					audio_controller.setHarmonicVolume(i, volume);
 					$("harmonic_text_" + i).innerHTML = "H"+i+": "+(volume*100).toFixed(3);
 					$("harmonic_" + i).value = volume*100;
@@ -95,6 +94,38 @@ function setup_controls(){
 				storage.set_duration(duration);
 				selectText.innerHTML = duration == -1 ? "Duration" : "Duration: " + duration + "min";
 			}
+		}
+
+		setupRootNoteSelect();
+		function setupRootNoteSelect() {
+			const id = "note_type_select";
+			var select = $(id);
+			var i;
+			let noteTypes = musicKit.Note.ALL_NOTE_NAME_TYPES;
+			var midi_value = 60;
+			for (i = 0; i < noteTypes.length; i++) {
+				let noteType = noteTypes[i];
+				let value = noteType.type;
+				var option = document.createElement('option');
+				if(midi_value == storage.get_root_note()) {
+					option.setAttribute('selected','selected');
+				}
+				option.setAttribute('value', midi_value);
+				midi_value++;
+				option.innerHTML = value;
+				select.appendChild(option);
+			}
+
+			$(id).addEventListener("change", function(e){
+				var value = parseInt(this.value);
+				log.i("on "+id+": " + value);
+				storage.set_root_note(value);
+				audio_controller.stop();
+				pianoView.clear();
+				buildMidiValueToJustIntonationFrequencyMap();
+			});
+			$(id).value = storage.get_root_note();
+			
 		}
 	}
 
@@ -221,12 +252,39 @@ function setup_controls(){
 					var v = parseFloat(this.value);
 					sliderText.innerHTML = "H" + i + ": " + v.toFixed(3);
 					var volume = v / 100;
-					//harmonicsVolume[i] = volume;
 					audio_controller.setHarmonicVolume(i, volume);
 				}
 			}
 		}
 	}		
+
+	setupJustIntonationSwitch();
+	function setupJustIntonationSwitch() {
+		const base_id = "just_intonate" 
+		$(base_id).addEventListener("click", function(e){
+			$(base_id+"_checkbox").click();
+		});
+		$(base_id+"_label").addEventListener("click", function(e){
+			$(base_id+"_checkbox").click();
+		});
+		$(base_id+"_checkbox_switch").addEventListener('keyup', function(e) {
+			if (event.code === 'Space' || event.code === 'Enter') $(base_id+"_checkbox").click();
+		});
+		$(base_id+"_checkbox").addEventListener("change", function(e){
+			var value = this.checked;
+			log.i("on "+base_id+" change: " + value);
+			storage.set_is_just_intonation(value);
+
+			audio_controller.stop();
+			pianoView.clear();
+			$("note_type_select_row").style.display = value ? "table-row":"none";
+			$("intonation_header").innerHTML = 'Intonation: '+(value ? "Just Intonation":"Equal Temperment");
+		});
+		var is_just_intonation = storage.is_just_intonation()
+		$(base_id+"_checkbox").checked = is_just_intonation;
+		$("note_type_select_row").style.display = is_just_intonation ? "table-row":"none";
+		$("intonation_header").innerHTML = 'Intonation: '+(is_just_intonation ? "Just Intonation":"Equal Temperment");
+	}
 }
 
 kofi = function(){

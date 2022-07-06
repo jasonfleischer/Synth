@@ -7,7 +7,6 @@ audio_controller = {
     tremoloNode: {},
     analyserNode: {},
     notes: new Map(),
-    lastPlayedNotes: new Map(),
     lastNote: {},
     harmonicsVolume : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 }
@@ -19,9 +18,6 @@ audio_controller.startStopNote = function(frequency, masterVolume = storage.get_
 
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         this.ctx = new AudioContext();
-
-        //this.notes = new Map();
-        //this.lastPlayedNotes = new Map();
 
         this.tremoloNode = this.ctx.createGain();
         this.tremoloNode.gain.value = 1.0;
@@ -83,41 +79,6 @@ audio_controller.startStopNote = function(frequency, masterVolume = storage.get_
     this.lastNote.play();
 }
 
-audio_controller.playStopClick = function() {
-    if(this.notes.size > 0) {
-        this.stop();
-    } else if(this.lastPlayedNotes.size > 0){
-        this.playStop();
-    }
-}
-
-audio_controller.playStop = function() {
-
-    if (this.playing) {
-        this.stop();
-    } else {
-
-        for(const [frequency, note] of this.lastPlayedNotes) {
-
-            function findNoteWithFrequency(frequency){
-                var i;
-                for(i=0; i< musicKit.all_notes.length; i++){
-                    var note = musicKit.all_notes[i];
-                    if(note.frequency == frequency){
-                        return note;
-                    }
-                }
-                log.e("note not found");
-            }
-            var foundNote = findNoteWithFrequency(frequency);
-
-            let color = foundNote.note_name.is_sharp_or_flat ? "#777": "#aaa";
-            this.startStopNote(frequency);
-            pianoView.drawNoteWithColor(foundNote, color);
-        }
-    }
-}
-
 audio_controller.fadeStop = function() {
     this.stop(storage.get_fade_in_seconds());
 }
@@ -125,8 +86,6 @@ audio_controller.fadeStop = function() {
 audio_controller.stop = function(delayTime=0.5) {
 
     if (!this.playing) return;
-
-    this.lastPlayedNotes = new Map(this.notes);
 
     this.playing = false;
     stopDurationTimer();

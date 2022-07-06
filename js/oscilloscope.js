@@ -1,8 +1,6 @@
 class Oscilloscope {
 	constructor(){
 		this.drawing = true;
-		//this.bufferLength = this.analyserNode.frequencyBinCount;
-        // this.dataArray = new Uint8Array(bufferLength);
 		this.buildView();
 	}
 

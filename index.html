@@ -76,6 +76,24 @@
 					</select></td>
 				</tr>
 			</table>
+			<h4 id='intonation_header'>Intonation</h4>
+			<table>
+				<tr id="just_intonate" class="checkbox-row">
+					<td>
+						<label id="just_intonate_label" for="just_intonate_checkbox">Just Intonation</label>
+					</td>
+					<td>
+						<div id="just_intonate_checkbox_switch" class="switch">
+							<input id="just_intonate_checkbox" type="checkbox"/>
+							<span class="switch_track round" tabindex="0"></span>
+						</div>
+					</td>
+				</tr>
+				<tr id='note_type_select_row'>
+					<td id="note_type"><label for="note_type_select">Inonation Root Note</label></td>
+					<td><select id="note_type_select"></select></td>
+				</tr>
+			</table>
 		</article>		
 		<article>
 			<h1>Tremolo</h1>
@@ -110,6 +128,7 @@
 			</div>
 			<table id="harmonics_table"></table>
 		</article>
+		<article></article>
 	</aside>
 	<script src="js/bundle.js"></script>
 </body>

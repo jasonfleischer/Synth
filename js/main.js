@@ -5,11 +5,12 @@ musicKit.init();
 
 var pianoView = buildPianoView();
 var oscilloscope = new Oscilloscope();
+var midiValueToJustIntonationFrequencyMap = new Map();
 
 init = function() {
 
 	alert.init();
-	
+	buildMidiValueToJustIntonationFrequencyMap();
 	window_resized_end();
 	setup_keyboard_listeners();
 	setup_controls();
@@ -50,14 +51,38 @@ new musicKit.MidiListener(
 );
 
 function noteOn(note){
+	const freq = storage.is_just_intonation() ? 
+		midiValueToJustIntonationFrequencyMap.get(note.midi_value) : note.frequency;
 	let color = note.note_name.is_sharp_or_flat ? "#777": "#aaa";
-	audio_controller.startStopNote(note.frequency);
+	audio_controller.startStopNote(freq);
 	pianoView.drawNoteWithColor(note, color);
 	
 }
 function noteOff(note){
-	audio_controller.startStopNote(note.frequency);
+	const freq = storage.is_just_intonation() ? 
+		midiValueToJustIntonationFrequencyMap.get(note.midi_value) : note.frequency;
+	audio_controller.startStopNote(freq);
 	pianoView.clearNote(note);
+}
+
+function buildMidiValueToJustIntonationFrequencyMap(){
+
+	var rootNote = musicKit.all_notes[storage.get_root_note()];
+	midiValueToJustIntonationFrequencyMap = new Map();
+	var i;
+	for (i=0; i<musicKit.all_notes.length; i++) {
+		var note = musicKit.all_notes[i];
+		if(note.note_name.type == rootNote.note_name.type){
+			midiValueToJustIntonationFrequencyMap.set(note.midi_value, note.frequency);
+			var j;
+			var multipliers = [1.0000, 25.0000/24.0000, 9.0000/8.0000, 6.0000/5.0000, 5.0000/4.0000, 4.0000/3.0000, 
+						45.0000/32.0000, 3.0000/2.0000, 8.0000/5.0000, 5.0000/3.0000, 9.0000/5.0000, 15.0000/8.0000];
+			for (j=0; j<multipliers.length; j++) {
+				var newFreq = note.frequency * multipliers[j];
+				midiValueToJustIntonationFrequencyMap.set(note.midi_value+j, newFreq);
+			}
+		}
+	}
 }
 
 var durationStartTime;
