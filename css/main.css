@@ -82,29 +82,11 @@ strong {
 	width: 150px;
 }
 
-.Csharp {
-	margin-left: 20px;
-}
-
-.Fsharp {
-	margin-left: 39px;
-}
-
 #oscilloscope {
-	position: absolute;
-	background: #000;
 	width: 336px;
-	height: 135px;
-	border: 2px var(--tertiary-background-color) solid;
+	height: 166px;
 }
-#oscilloscope_container {
-	position: relative;
-	height: 145px;
-}
-#oscilloscope_button {
-	position: absolute;
-	margin: 7px;
-}
+
 #ios_install_instructions p {
     font-size: 18px !important;
 }

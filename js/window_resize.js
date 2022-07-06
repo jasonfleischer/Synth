@@ -19,7 +19,7 @@ function window_resized_end(){
 
 	var isOneOctave = window.innerWidth < 1070;
 
-	stop();
+	audio_controller.stop();
 	pianoView.removeCanvases();
 	pianoView.removeOnClick();
 	pianoView = buildPianoView({min:48, max: isOneOctave ? 60: 72}, isOneOctave ? 340 : 680);

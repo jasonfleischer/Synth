@@ -1,6 +1,4 @@
-
 function setup_keyboard_listeners() {
-	log.i("setup_keyboard_listeners")
 
 	window.onkeydown = function(e) {
     	return e.keyCode !== 32 && e.key !== " ";
@@ -8,7 +6,7 @@ function setup_keyboard_listeners() {
 	document.addEventListener('keyup', function(event){
 		var code = event.code;
 		if (code === 'Space') {
-			playStop();
+			audio_controller.playStop();
 		} else {
 			event.preventDefault();
 		}

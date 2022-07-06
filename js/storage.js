@@ -1,11 +1,11 @@
 storage = {};
 
 storage.load = function(){
-	model.master_volume_percent = storage.get_volume(30);
+	//model.master_volume_percent = storage.get_volume(30);
 };
 
 storage.VOLUME_KEY = "SYNTH_VOLUME_KEY";
-storage.get_volume = function(default_value){
+storage.get_volume = function(default_value=30){
 	return storage.get(storage.VOLUME_KEY, default_value);
 };
 storage.set_volume = function(value){

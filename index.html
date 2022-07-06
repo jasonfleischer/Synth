@@ -17,12 +17,12 @@
 </head>
 <body>
 	<header>
-		<div id="page_name" onclick="info()">Synth</div>
-		<button id="kofi_button" onclick="kofi()">
+		<div id="page_name">Synth</div>
+		<button id="kofi_button">
 			<img src="img/kofi.svg" width="25" height="25" alt="Buy Me a Coffee at ko-fi.com" />
 			<span >Support the Developer</span>
 		</button>
-		<button id="info_button" onclick="info()" ><img id="info_button_svg" src="img/info_white.svg" width="16" height="19" alt="Info"/></button>
+		<button id="info_button"><img id="info_button_svg" src="img/info_white.svg" width="16" height="19" alt="Info"/></button>
 	</header>
 	<div id="alert_container">
 		<div id="alert">
@@ -38,13 +38,9 @@
 			<div id="piano"></div>
 		</article>
 		<article>
-			<div id="oscilloscope_container">
-				<canvas id="oscilloscope"></canvas>
-				<button id="oscilloscope_button" onclick="toggleDrawing(this)">S</button>
-			</div>
-			<br/>
-			<button onclick="playStopButtonClick(this)">Stop</button>
-			<button id="stop_delay" onclick="fadeStop()">Fade Out</button>
+			<div id="oscilloscope"></div>
+			<button id="play_stop">Stop</button>
+			<button id="stop_delay">Fade Out</button>
 		</article>
 	</main>
 	<aside>
@@ -105,12 +101,12 @@
 		<article>
 			<h1>Harmonics</h1>
 			<div>
-				<button id="P0" onclick="harmonicsPreset0()">P0</button>
-				<button id="P1" onclick="harmonicsPreset1()">P1</button>
-				<button id="P2" onclick="harmonicsPreset2()">P2</button>
-				<button id="P3" onclick="harmonicsPreset3()">P3</button>
-				<button id="P4" onclick="harmonicsPreset4()">P4</button>
-				<button id="P5" onclick="harmonicsPreset5()">P5</button>
+				<button id="P1">P1</button>
+				<button id="P2">P2</button>
+				<button id="P3">P3</button>
+				<button id="P4">P4</button>
+				<button id="P5">P5</button>
+				<button id="P6">P6</button>
 			</div>
 			<table id="harmonics_table"></table>
 		</article>

@@ -1,4 +1,4 @@
-Oscillator = class Oscillator {
+class Oscillator {
 
 	constructor(audioContext, frequency, volume, type) {
 		this.audioContext = audioContext;
@@ -9,10 +9,13 @@ Oscillator = class Oscillator {
 		this.gainNode = this.audioContext.createGain();
 		this.gainNode.gain.value = 0;
 		this.oscillator.connect(this.gainNode);
-		this.gainNode.connect(compressorNode);
 		
 		this.playing = false;
 		this.volume = volume;
+	}
+
+	connect(destinationNode){
+		this.gainNode.connect(destinationNode);
 	}
 	
 	play() {

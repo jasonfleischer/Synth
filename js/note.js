@@ -13,6 +13,13 @@ class Note {
 		}
 	}
 
+	connect(destinationNode){
+		var i;
+		for (i = 0; i < this.oscillators.length; i++) {
+			this.oscillators[i].connect(destinationNode);
+		}
+	}
+
 	play() {
 		var i;
 		for (i = 0; i < this.oscillators.length; i++) {
