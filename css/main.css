@@ -78,6 +78,18 @@ strong {
     color: #007bff;
 }
 
+.checkbox-row {
+	color: var(--primary-font-color);
+	font-size: 15px;
+	height: var(--row-height);
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+}
+.checkbox-row label{
+	cursor: pointer !important;
+}
+
 .no_select {
 	-webkit-user-select: none;
 	-moz-user-select: none;
