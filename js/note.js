@@ -1,6 +1,6 @@
 class Note {
 
-	constructor(audioContext, fundamentalFrequency, harmonicsVolumePercents) {
+	constructor(audioContext, fundamentalFrequency, harmonicsVolumePercents, oscillatorType = "sine") {
 		this.id = fundamentalFrequency;
 		this.audioContext = audioContext;
 		this.oscillators = [];
@@ -9,7 +9,7 @@ class Note {
 		var i;
 		for (i = 0; i < harmonicsVolumePercents.length; i++) {
 			var volumePercent = Math.min(Math.max(harmonicsVolumePercents[i], 0), 1);
-			this.oscillators.push(new Oscillator(audioContext, fundamentalFrequency*(i+1), volumePercent, model.oscillatorTypes[model.oscillatorTypeIndex]));
+			this.oscillators.push(new Oscillator(audioContext, fundamentalFrequency*(i+1), volumePercent, oscillatorType));
 		}
 	}
 

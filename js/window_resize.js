@@ -16,9 +16,7 @@ function window_resized_start(){
 function window_resized_end(){
 
 	window_resize_start_event_occured = false;
-
 	var isOneOctave = window.innerWidth < 1070;
-
 	audio_controller.stop();
 	pianoView.removeCanvases();
 	pianoView.removeOnClick();

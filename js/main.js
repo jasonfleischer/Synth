@@ -6,6 +6,21 @@ musicKit.init();
 var pianoView = buildPianoView();
 var oscilloscope = new Oscilloscope();
 
+init = function() {
+
+	alert.init();
+	
+	window_resized_end();
+	setup_keyboard_listeners();
+	setup_controls();
+	$("P"+storage.get_preset_index()).click();
+
+	var isSafariMobile = window.mobileAndTabletCheck() && isSafari;
+	if (isSafariMobile && !isFromHomeScreen()){
+		install.showAlert();
+	}
+}
+
 function buildPianoView(range = { min: 48, max: 60 }, width = 340){
 	return pianoKit({
 		id: 'piano',
@@ -45,26 +60,10 @@ function noteOff(note){
 	pianoView.clearNote(note);
 }
 
-init = function() {
-
-	storage.load();
-	alert.init();
-	
-	window_resized_end();
-	updatePresetButtonsUI(6);
-	setup_keyboard_listeners();
-	setup_controls();
-
-	var isSafariMobile = window.mobileAndTabletCheck() && isSafari;
-	if (isSafariMobile && !isFromHomeScreen()){
-		install.showAlert();
-	}
-}
-
 var durationStartTime;
 var durationTimeout;
 function startDurationTimer(){
-	if (duration == -1) return;
+	if (storage.get_duration() == -1) return;
 	durationStartTime = Date.now();
 	durationTimerWork();
 }
@@ -73,7 +72,7 @@ function durationTimerWork(){
 	var timeExpired = Date.now() - durationStartTime;
 
 	var buttonText = $("stop_delay");
-	var durationInMS = duration*60*1000;
+	var durationInMS = storage.get_duration()*60*1000;
 	var timeRemaining = durationInMS - timeExpired;
 
 
@@ -121,14 +120,14 @@ var fluctateDown = true;
 function fluctuateVolume() {
 
 	function BPMtoMilliSeconds(BPM) { return 1000 / (BPM / 60); }
-	var timeMS = BPMtoMilliSeconds(bpm);
+	var timeMS = BPMtoMilliSeconds(storage.get_bpm());
 
 	if (audio_controller.playing) {
 
 		if (fluctateDown) {
-			audio_controller.setTremoloVolume(tremoloMin, timeMS / 1000);
+			audio_controller.setTremoloVolume(storage.get_tremolo_min(), timeMS / 1000);
 		} else {
-			audio_controller.setTremoloVolume(tremoloMax, timeMS / 1000);
+			audio_controller.setTremoloVolume(storage.get_tremolo_max(), timeMS / 1000);
     		clearTimeout(visualizationTimeout);
     		visualizationfrequencyInHz = 1000 / timeMS / 2;
     		visualizationTimeout = setTimeout(visualizationUpdate, 0);
@@ -136,15 +135,6 @@ function fluctuateVolume() {
 		fluctateDown = !fluctateDown;
 	}
 	timeout = setTimeout(fluctuateVolume, timeMS);
-
-
-	/*function setTremoloVolume(volume, rampTime = 0) {
-
-		var time = ctx.currentTime;
-		tremoloNode.gain.setValueAtTime(tremoloVolume, time);
-		tremoloNode.gain.exponentialRampToValueAtTime(Math.max(0.00001, volume), time + rampTime);
-		tremoloVolume = volume;
-	}*/
 }
 
 var startTime = Date.now();
@@ -157,8 +147,8 @@ function visualizationUpdate() {
 
 	var timeDiff = (Date.now() - startTime) / 1000;
 
-	var min = tremoloMin * 100;
-	var max = tremoloMax * 100;
+	var min = storage.get_tremolo_min() * 100;
+	var max = storage.get_tremolo_max() * 100;
 
 	var frequencyInHz = visualizationfrequencyInHz;
 
@@ -172,13 +162,14 @@ function visualizationUpdate() {
 	visualizationTimeout = setTimeout(visualizationUpdate, 40);
 }
 
-updatePresetButtonsUI = function(index) {
+updatePresetButtonsUI = function() {
+	var index = storage.get_preset_index();
 	var i;
 	for (i = 1; i <= 6; i++) {
 		let elem = $('P'+i);
-		if(i == index){
+		if (i == index){
 			addClass(elem, 'selected');
-		}else{
+		} else{
 			removeClass(elem, 'selected');
 		}	
 	}

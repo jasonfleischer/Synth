@@ -6,20 +6,22 @@ audio_controller = {
     compressorNode: {},
     tremoloNode: {},
     analyserNode: {},
-    notes: {},
-    lastPlayedNotes: {},
-    lastNote: {}
+    notes: new Map(),
+    lastPlayedNotes: new Map(),
+    lastNote: {},
+    harmonicsVolume : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 }
 
-audio_controller.startStopNote = function(frequency, masterVolume = storage.get_volume()) {
+audio_controller.startStopNote = function(frequency, masterVolume = storage.get_volume(),
+                                             oscillatorIndex = storage.get_oscillator_type_index()) {
 
     if (!this.setup) {
 
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
         this.ctx = new AudioContext();
 
-        this.notes = new Map();
-        this.lastPlayedNotes = new Map();
+        //this.notes = new Map();
+        //this.lastPlayedNotes = new Map();
 
         this.tremoloNode = this.ctx.createGain();
         this.tremoloNode.gain.value = 1.0;
@@ -69,7 +71,7 @@ audio_controller.startStopNote = function(frequency, masterVolume = storage.get_
         }               
     }
 
-    this.lastNote = new Note(this.ctx, frequency, harmonicsVolume);
+    this.lastNote = new Note(this.ctx, frequency, this.harmonicsVolume, this.getOscillatorTypeString(oscillatorIndex));
     this.lastNote.connect(this.compressorNode);
 
     if(this.notes.size == 0){
@@ -117,7 +119,7 @@ audio_controller.playStop = function() {
 }
 
 audio_controller.fadeStop = function() {
-    this.stop(fade_in_seconds);
+    this.stop(storage.get_fade_in_seconds());
 }
 
 audio_controller.stop = function(delayTime=0.5) {
@@ -136,12 +138,6 @@ audio_controller.stop = function(delayTime=0.5) {
     pianoView.clear();      
 }
 
-audio_controller.setOscillatorType = function(type){
-    for(const [frequency, note] of this.notes) {
-        note.setOscillatorType(type);
-    }
-}
-
 audio_controller.setMasterVolume = function(volume) {
     if (this.setup) {
         this.masterGainNode.gain.setValueAtTime(volume, this.ctx.currentTime);
@@ -156,9 +152,24 @@ audio_controller.setTremoloVolume = function(volume, rampTime = 0) {
 }
 
 audio_controller.setHarmonicVolume = function(index, volume) {
+    this.harmonicsVolume[index] = volume;
     for(const [frequency, note] of this.notes) {
         note.setHarmonicVolume(index, volume);
     }
+}
+
+audio_controller.setOscillatorType = function(index){
+    if (this.setup) {
+        var type = this.getOscillatorTypeString(index)
+        for(const [frequency, note] of this.notes) {
+            note.setOscillatorType(type);
+        }
+    }
+}
+
+audio_controller.getOscillatorTypeString = function(index){
+    const oscillatorTypes = ["sine", "triangle", "sawtooth", "square"];
+    return oscillatorTypes[index];
 }
 
 
