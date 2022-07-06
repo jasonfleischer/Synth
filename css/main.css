@@ -78,6 +78,13 @@ strong {
     color: #007bff;
 }
 
+.no_select {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 .slider {
 	width: 150px;
 }
